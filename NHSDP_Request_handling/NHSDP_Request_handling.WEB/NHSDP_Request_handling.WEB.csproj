@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NHSDP_Request_handling.Core\NHSDP_Request_handling.Core.csproj" />
+    <ProjectReference Include="..\NHSDP_Request_handling\NHSDP_Request_handling.Logic.csproj" />
   </ItemGroup>
 
 

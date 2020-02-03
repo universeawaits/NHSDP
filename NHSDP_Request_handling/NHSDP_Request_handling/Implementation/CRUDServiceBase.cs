@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NHSDP_Request_handling.Core;
+﻿using NHSDP_Request_handling.Core;
 using NHSDP_Request_handling.WEB.Model.Base;
 using NHSDP_Request_handling.WEB.Service.Interface;
+
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace NHSDP_Request_handling.WEB.Service.Implementation
 {
@@ -18,34 +20,38 @@ namespace NHSDP_Request_handling.WEB.Service.Implementation
             this.uow = uow;
         }
 
-        public Task Create(TEntity entity)
+        public async Task CreateAsync(TEntity entity)
         {
-            
+            await uow.Context.Set<TEntity>().AddAsync(entity);
+            await uow.CommitAsync();
         }
 
-        public Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            TEntity found = await uow.Context.Set<TEntity>().FindAsync(id);
+            uow.Context.Set<TEntity>().Remove(found);
+            await uow.CommitAsync();
         }
 
-        public Task Get(Guid id)
+        public async Task<TEntity> Get(Guid id)
         {
-            throw new NotImplementedException();
+            return await uow.Context.Set<TEntity>().FindAsync(id);
         }
 
-        public Task GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return uow.Context.Set<TEntity>().AsNoTracking().AsEnumerable();
         }
 
-        public Task GetByFilter(Func<TEntity, bool> filterFunc)
+        public async Task<IEnumerable<TEntity>> GetByFilter(Func<TEntity, bool> filterFunc)
         {
-            throw new NotImplementedException();
+            return uow.Context.Set<TEntity>().AsNoTracking().Where(filterFunc);
         }
 
-        public Task Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            uow.Context.Set<TEntity>().Update(entity);
+            await uow.CommitAsync();
         }
     }
 }
