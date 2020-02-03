@@ -1,4 +1,5 @@
-﻿using NHSDP_Request_handling.WEB.Model.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using NHSDP_Request_handling.WEB.Model.Base;
 using NHSDP_Request_handling.WEB.Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace NHSDP_Request_handling.WEB.Service.Implementation
 {
     public class CRUDServiceBase<TEntity> : ICRUDServiceBase<TEntity> where TEntity : EntityBase
     {
-
+        private IUnitOfWork<DbContext> uow;
 
         public Task Create(TEntity entity)
         {
