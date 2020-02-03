@@ -1,35 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NHSDP_Request_handling.WEB.Models;
+using NHSDP_Request_handling.WEB.ViewModel;
 
 namespace NHSDP_Request_handling.WEB.Controllers
 {
-    public class HomeController : Controller
+    public class OfficeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<OfficeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public OfficeController(ILogger<OfficeController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> UpdateOffice()
         {
             return View();
         }
 
-        public IActionResult Error()
+        public async Task<IActionResult> CreateOffice(OfficeVM office)
         {
+            return View();
+        }
+
+        public async Task<IActionResult> DeleteOffice(int? id)
+        {
+
         }
     }
 }
