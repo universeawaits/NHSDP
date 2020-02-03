@@ -1,0 +1,12 @@
+﻿@using NHSDP_Request_handling.Core.Model;
+@model IEnumerable<Office>
+@{
+    ViewData["Title"] = "Offices";
+}
+
+<div>
+    @foreach (Office office in Model)
+    {
+        <p>@office.Id</p>
+    }
+</div>

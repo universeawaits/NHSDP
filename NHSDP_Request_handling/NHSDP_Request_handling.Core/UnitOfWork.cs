@@ -11,6 +11,11 @@ namespace NHSDP_Request_handling.Core
     {
         public TContext Context { get; }
 
+        public UnitOfWork(TContext context)
+        {
+            Context = context;
+        }
+
         public async Task CommitAsync()
         {
             await Context.SaveChangesAsync();

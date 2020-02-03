@@ -1,5 +1,7 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using NHSDP_Request_handling.Core.Model;
 
 namespace NHSDP_Request_handling.WEB.Migrations
 {
@@ -42,7 +44,7 @@ namespace NHSDP_Request_handling.WEB.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Adress = table.Column<string>(nullable: true),
-                    CabinetsCount = table.Column<string>(nullable: true)
+                    CabinetsCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

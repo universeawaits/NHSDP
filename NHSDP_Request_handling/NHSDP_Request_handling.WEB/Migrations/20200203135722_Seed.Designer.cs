@@ -2,16 +2,19 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NHSDP_Request_handling.Core;
+using NHSDP_Request_handling.Core.Model;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace NHSDP_Request_handling.WEB.Migrations
 {
     [DbContext(typeof(InternshipContext))]
-    partial class InternshipContextModelSnapshot : ModelSnapshot
+    [Migration("20200203135722_Seed")]
+    partial class Seed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,6 +116,13 @@ namespace NHSDP_Request_handling.WEB.Migrations
                     b.ToTable("Internships");
                 });
 #pragma warning restore 612, 618
+
+            modelBuilder.Entity<Office>().HasData(
+               new Office() { Id = Guid.NewGuid(), Adress = "Kolasa, 45", CabinetsCount = 20 },
+               new Office() { Id = Guid.NewGuid(), Adress = "Losika, 32", CabinetsCount = 11 },
+               new Office() { Id = Guid.NewGuid(), Adress = "Pobediteley, 183", CabinetsCount = 9 },
+               new Office() { Id = Guid.NewGuid(), Adress = "Bedy, 2", CabinetsCount = 25 }
+               );
         }
     }
 }

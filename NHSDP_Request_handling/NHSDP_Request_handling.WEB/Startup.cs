@@ -1,19 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using NHSDP_Request_handling.Core;
-using NHSDP_Request_handling.WEB.Model.Base;
 using NHSDP_Request_handling.WEB.Service;
 using NHSDP_Request_handling.WEB.Service.Implementation;
 using NHSDP_Request_handling.WEB.Service.Interface;
+
 
 namespace NHSDP_Request_handling.WEB
 {
@@ -37,9 +34,13 @@ namespace NHSDP_Request_handling.WEB
                         Configuration.GetConnectionString("NHSDPConnection"),
                         builderConfig => builderConfig.MigrationsAssembly("NHSDP_Request_handling.WEB"));
                 });
-            services.AddSingleton<IUnitOfWork<InternshipContext>, UnitOfWork<InternshipContext>>();
 
+            services.AddScoped<IUnitOfWork<InternshipContext>, UnitOfWork<InternshipContext>>();
             services.AddScoped(typeof(ICRUDServiceBase<>), typeof(CRUDServiceBase<>));
+            services.AddScoped(provider => new MapperConfiguration(
+                cfg => cfg.AddProfile(new WEBMapperProfile())).CreateMapper()
+                );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +52,6 @@ namespace NHSDP_Request_handling.WEB
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -66,7 +66,7 @@ namespace NHSDP_Request_handling.WEB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Internships}/{action=Index}/{id?}");
             });
         }
     }

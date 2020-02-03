@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NHSDP_Request_handling.Core;
+using NHSDP_Request_handling.Core.Model;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace NHSDP_Request_handling.WEB.Migrations
 {
     [DbContext(typeof(InternshipContext))]
-    [Migration("20200203103440_Initial")]
+    [Migration("20200203135411_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,8 +48,8 @@ namespace NHSDP_Request_handling.WEB.Migrations
                     b.Property<string>("Adress")
                         .HasColumnType("text");
 
-                    b.Property<string>("CabinetsCount")
-                        .HasColumnType("text");
+                    b.Property<int>("CabinetsCount")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
