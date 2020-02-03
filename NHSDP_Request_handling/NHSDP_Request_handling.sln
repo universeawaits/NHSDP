@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSDP_Request_handling.WEB", "NHSDP_Request_handling.WEB\NHSDP_Request_handling.WEB.csproj", "{76A6BD1C-F129-4A60-891C-390830D5D606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSDP_Request_handling.Core", "NHSDP_Request_handling.Core\NHSDP_Request_handling.Core.csproj", "{0989035E-9AF1-4ED6-A86D-99D89A7CD425}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSDP_Request_handling.Core", "NHSDP_Request_handling.Core\NHSDP_Request_handling.Core.csproj", "{0989035E-9AF1-4ED6-A86D-99D89A7CD425}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHSDP_Request_handling.Logic", "NHSDP_Request_handling\NHSDP_Request_handling.Logic.csproj", "{0657EDED-8477-4D6D-96C1-CEAD35B5EF28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0989035E-9AF1-4ED6-A86D-99D89A7CD425}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0989035E-9AF1-4ED6-A86D-99D89A7CD425}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0989035E-9AF1-4ED6-A86D-99D89A7CD425}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0657EDED-8477-4D6D-96C1-CEAD35B5EF28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0657EDED-8477-4D6D-96C1-CEAD35B5EF28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0657EDED-8477-4D6D-96C1-CEAD35B5EF28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0657EDED-8477-4D6D-96C1-CEAD35B5EF28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
