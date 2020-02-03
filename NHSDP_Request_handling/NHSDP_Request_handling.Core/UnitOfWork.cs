@@ -9,16 +9,16 @@ namespace NHSDP_Request_handling.Core
 {
     public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
     {
-        private TContext context;
+        public TContext Context { get; }
 
         public async Task CommitAsync()
         {
-            await context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            context?.Dispose();
+            Context?.Dispose();
             GC.SuppressFinalize(this);
         }
     }

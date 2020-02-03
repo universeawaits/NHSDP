@@ -13,9 +13,14 @@ namespace NHSDP_Request_handling.WEB.Service.Implementation
     {
         private IUnitOfWork<InternshipContext> uow;
 
+        public CRUDServiceBase(IUnitOfWork<InternshipContext> uow)
+        {
+            this.uow = uow;
+        }
+
         public Task Create(TEntity entity)
         {
-            throw new NotImplementedException();
+            
         }
 
         public Task Delete(Guid id)
