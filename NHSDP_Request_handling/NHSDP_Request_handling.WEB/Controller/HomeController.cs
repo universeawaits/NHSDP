@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NHSDP_Request_handling.WEB.ViewModel;
@@ -9,11 +10,13 @@ namespace NHSDP_Request_handling.WEB.Controllers
 {
     public class OfficeController : Controller
     {
-        private readonly ILogger<OfficeController> _logger;
+        private readonly ILogger<OfficeController> logger;
+        private readonly IMapper mapper;
 
-        public OfficeController(ILogger<OfficeController> logger)
+        public OfficeController(ILogger<OfficeController> logger, IMapper mapper)
         {
-            _logger = logger;
+            this.logger = logger;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Index()

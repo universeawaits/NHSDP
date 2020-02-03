@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NHSDP_Request_handling.Core;
 using NHSDP_Request_handling.WEB.Model.Base;
 using NHSDP_Request_handling.WEB.Service.Interface;
 using System;
@@ -10,7 +11,7 @@ namespace NHSDP_Request_handling.WEB.Service.Implementation
 {
     public class CRUDServiceBase<TEntity> : ICRUDServiceBase<TEntity> where TEntity : EntityBase
     {
-        private IUnitOfWork<DbContext> uow;
+        private IUnitOfWork<InternshipContext> uow;
 
         public Task Create(TEntity entity)
         {

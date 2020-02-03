@@ -26,6 +26,5 @@ namespace NHSDP_Request_handling.Core
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         }
-
     }
 }
