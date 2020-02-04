@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -39,7 +41,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-
+        @{ string color = ViewData["ActionResultState"] != null && (bool)ViewData["ActionResultState"] ? "green" : "red"; }
+        <p style="color: @color;">@ViewData["ActionResultMessage"]</p>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

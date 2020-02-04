@@ -15,42 +15,73 @@ namespace NHSDP_Request_handling.WEB.Controllers
 {
     public class OfficeController : Controller
     {
-        private readonly ICRUDServiceBase<Office> officeSerivice;
+        private readonly ICRUDServiceBase<Office> officeService;
         private readonly ILogger<OfficeController> logger;
         private readonly IMapper mapper;
 
-        public OfficeController(ILogger<OfficeController> logger, IMapper mapper, ICRUDServiceBase<Office> officeSerivice)
+        public OfficeController(ILogger<OfficeController> logger, IMapper mapper, ICRUDServiceBase<Office> officeService)
         {
             this.logger = logger;
             this.mapper = mapper;
-            this.officeSerivice = officeSerivice;
+            this.officeService = officeService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Office> offices = await officeSerivice.GetAllAsync();
+            IEnumerable<Office> offices = await officeService.GetAllAsync();
             return View(offices);
         }
 
-        [ActionName("update")]
-        public async Task<IActionResult> UpdateOffice(Guid? id)
+        public async Task<IActionResult> UpdateOfficeView(OfficeVM office)
         {
             
             return View();
         }
 
-        [ActionName("create")]
-        public async Task<IActionResult> CreateOffice(OfficeVM office)
+        public async Task<IActionResult> Update(OfficeVM office)
+        {
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> CreateView()
         {
             return View();
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteOffice(Guid? id)
+        public async Task<IActionResult> Create(OfficeVM office)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewData["ActionResultState"] = false;
+                ViewData["ActionResultMessage"] = "Enter valid data";
+            }
+            else
+            {
+                await officeService.CreateAsync(mapper.Map<Office>(office));
+            }
 
-            return RedirectToAction("");
+            return RedirectToAction("Index");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                ViewData["ActionResultState"] = false;
+                ViewData["ActionResultMessage"] = "ID was null";
+            }
+            else
+            {
+                bool isDeleted = await officeService.DeleteAsync(id.Value);
+
+                ViewData["ActionResultState"] = isDeleted;
+                ViewData["ActionResultMessage"] = isDeleted ? "Office was deleted successfully" : "Office with ID given was not found";
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -40,17 +40,24 @@ namespace NHSDP_Request_handling.WEB.Controllers
             return View();
         }
 
-        [ActionName("create")]
-        public async Task<IActionResult> CreateInternship(OfficeVM office)
+        public async Task<IActionResult> CreateView()
         {
             return View();
+        }
+
+        [ActionName("create")]
+        public async Task<IActionResult> Create(OfficeVM office)
+        {
+
+
+            return RedirectToAction("Index");
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteInternship(Guid? id)
         {
 
-            return RedirectToAction("");
+            return RedirectToAction("Index");
         }
     }
 }

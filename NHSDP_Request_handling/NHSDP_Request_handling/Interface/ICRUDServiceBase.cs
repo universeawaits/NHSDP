@@ -10,7 +10,7 @@ namespace NHSDP_Request_handling.Logic.Interface
     public interface ICRUDServiceBase<TEntity> where TEntity : EntityBase
     {
         Task CreateAsync(TEntity entity);
-        Task DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(Guid id);
         Task Update(TEntity entity);
         Task<TEntity> Get(Guid id);
         Task<IEnumerable<TEntity>> GetAllAsync();

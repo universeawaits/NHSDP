@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Offices";
 }
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <div>
     <table>
@@ -20,11 +19,11 @@
                 <td>@office.Id</td>
                 <td>@office.Adress</td>
                 <td>@office.CabinetsCount</td>
-                <td><button class="btn btn-primary">Delete</button></td>
+                <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "Office", office.Id) + "'");" class="btn btn-primary" /></td>
                 <td><button class="btn btn-primary">Edit</button></td>
             </tr>
         }
     </table>
 </div>
 
-<input type="button" value="Add office" onclick="@("window.location.href='" + @Url.Action("Create", "Office") + "'");" class="btn btn-primary" />
+<input type="button" value="Add office" onclick="@("window.location.href='" + @Url.Action("CreateView", "Office") + "'");" class="btn btn-primary" />

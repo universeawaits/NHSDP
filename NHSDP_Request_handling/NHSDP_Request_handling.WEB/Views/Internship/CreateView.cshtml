@@ -1,9 +1,8 @@
 ﻿@model NHSDP_Request_handling.WEB.ViewModel.InternshipVM
 
 @{
-    ViewData["Title"] = "Add office";
+    ViewData["Title"] = "Create internship";
 }
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <h4>Create new internship</h4>
 <hr />
@@ -11,16 +10,16 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div class="form-group">
-                <label asp-for="StartAt" class="control-label"></label>
-                <input asp-for="StartAt" class="form-control" />
+                <label asp-for="StartAt" class="control-label">Start at</label>
+                <input asp-for="StartAt" class="form-control" required/>
             </div>
             <div class="form-group">
-                <label asp-for="EndAt" class="control-label"></label>
-                <input asp-for="EndAt" class="form-control" />
+                <label asp-for="EndAt" class="control-label">End at</label>
+                <input asp-for="EndAt" class="form-control" required/>
             </div>
             <div class="form-group">
-                <label asp-for="MaxStudentsCount" class="control-label"></label>
-                <input asp-for="MaxStudentsCount" class="form-control" />
+                <label asp-for="MaxStudentsCount" class="control-label" min="1">Maximum students count</label>
+                <input asp-for="MaxStudentsCount" class="form-control" required/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

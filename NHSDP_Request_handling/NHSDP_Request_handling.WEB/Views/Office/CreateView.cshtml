@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Add office";
 }
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <h4>Add a new office</h4>
 <hr />
@@ -12,11 +11,11 @@
         <form asp-action="Create">
             <div class="form-group">
                 <label asp-for="Adress" class="control-label"></label>
-                <input asp-for="Adress" class="form-control" />
+                <input asp-for="Adress" class="form-control" required/>
             </div>
             <div class="form-group">
-                <label asp-for="CabinetsCount" class="control-label"></label>
-                <input asp-for="CabinetsCount" class="form-control" />
+                <label asp-for="CabinetsCount" class="control-label">Cabinets count</label>
+                <input asp-for="CabinetsCount" class="form-control" type="number" min="1" required/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

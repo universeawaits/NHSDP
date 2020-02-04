@@ -27,11 +27,21 @@ namespace NHSDP_Request_handling.Logic.Implementation
             await uow.CommitAsync();
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             TEntity found = await uow.Context.Set<TEntity>().FindAsync(id);
-            uow.Context.Set<TEntity>().Remove(found);
-            await uow.CommitAsync();
+            
+            if (found == null)
+            {
+                return false;
+            }
+            else
+            {
+                uow.Context.Set<TEntity>().Remove(found);
+                await uow.CommitAsync();
+
+                return true;
+            }
         }
 
         public async Task<TEntity> Get(Guid id)
