@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using NHSDP_Request_handling.Core.Model;
-using NHSDP_Request_handling.WEB.Model.Base;
 
 
 namespace NHSDP_Request_handling.Core

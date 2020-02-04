@@ -1,15 +1,16 @@
 ﻿using NHSDP_Request_handling.Core;
-using NHSDP_Request_handling.WEB.Model.Base;
-using NHSDP_Request_handling.WEB.Service.Interface;
+using NHSDP_Request_handling.Logic.Interface;
+using NHSDP_Request_handling.Core.Model;
 
 using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace NHSDP_Request_handling.WEB.Service.Implementation
+namespace NHSDP_Request_handling.Logic.Implementation
 {
     public class CRUDServiceBase<TEntity> : ICRUDServiceBase<TEntity> where TEntity : EntityBase
     {

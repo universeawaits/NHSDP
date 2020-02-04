@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace NHSDP_Request_handling.WEB.Model.Base
+namespace NHSDP_Request_handling.Core.Model
 {
     public enum EnrollmentState { InProgress, Stopped, Paused }
 

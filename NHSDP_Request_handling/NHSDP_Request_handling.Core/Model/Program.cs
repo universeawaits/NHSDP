@@ -1,5 +1,4 @@
-﻿using NHSDP_Request_handling.WEB.Model.Base;
-using System;
+﻿using System;
 
 
 namespace NHSDP_Request_handling.Core.Model
