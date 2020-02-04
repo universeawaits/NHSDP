@@ -4,9 +4,26 @@
     ViewData["Title"] = "Offices";
 }
 
-<div>
+<div id="main">
+    <table class="purpleTable">
+    <tr>
+        <th>ID</th>
+        <th>Adress</th>
+        <th>Cabinets count</th>
+        <th></th>
+        <th></th>
+    </tr>
     @foreach (Office office in Model)
     {
-        <p>@office.Id</p>
+        <tr>
+            <td>@office.Id</td>
+            <td>@office.Adress</td>
+            <td>@office.CabinetsCount</td>
+            <td><button>Delete</button></td>
+            <td><button>Edit</button></td>
+        </tr>
     }
+</table>
 </div>
+
+<button type="button">Add</button>

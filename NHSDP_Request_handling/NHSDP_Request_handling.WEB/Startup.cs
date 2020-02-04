@@ -66,7 +66,7 @@ namespace NHSDP_Request_handling.WEB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Internships}/{action=Index}/{id?}");
+                    pattern: "{controller=Office}/{action=Index}/{id?}");
             });
         }
     }
