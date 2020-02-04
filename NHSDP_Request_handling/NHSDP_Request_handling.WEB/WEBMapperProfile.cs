@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 
 using BaseModel = NHSDP_Request_handling.Core.Model;
-using NHSDP_Request_handling.WEB.Model.Base;
 using NHSDP_Request_handling.WEB.ViewModel;
-
+using NHSDP_Request_handling.Core.Model;
 
 namespace NHSDP_Request_handling.WEB
 {

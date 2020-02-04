@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using NHSDP_Request_handling.Core.Model;
-using NHSDP_Request_handling.WEB.Service.Interface;
+using NHSDP_Request_handling.Logic.Interface;
 using NHSDP_Request_handling.WEB.ViewModel;
 
 

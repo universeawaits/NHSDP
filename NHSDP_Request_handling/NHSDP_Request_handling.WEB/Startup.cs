@@ -7,10 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using NHSDP_Request_handling.Core;
-using NHSDP_Request_handling.WEB.Service;
-using NHSDP_Request_handling.WEB.Service.Implementation;
-using NHSDP_Request_handling.WEB.Service.Interface;
-
+using NHSDP_Request_handling.Logic.Implementation;
+using NHSDP_Request_handling.Logic.Interface;
 
 namespace NHSDP_Request_handling.WEB
 {

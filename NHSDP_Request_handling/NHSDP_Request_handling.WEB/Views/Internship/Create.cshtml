@@ -1,0 +1,34 @@
+﻿@model NHSDP_Request_handling.WEB.ViewModel.InternshipVM
+
+@{
+    ViewData["Title"] = "Add office";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h4>Create new internship</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="StartAt" class="control-label"></label>
+                <input asp-for="StartAt" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="EndAt" class="control-label"></label>
+                <input asp-for="EndAt" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxStudentsCount" class="control-label"></label>
+                <input asp-for="MaxStudentsCount" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
