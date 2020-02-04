@@ -59,7 +59,7 @@ namespace NHSDP_Request_handling.Logic.Implementation
             return uow.Context.Set<TEntity>().AsNoTracking().Where(filterFunc);
         }
 
-        public async Task Update(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
             uow.Context.Set<TEntity>().Update(entity);
             await uow.CommitAsync();

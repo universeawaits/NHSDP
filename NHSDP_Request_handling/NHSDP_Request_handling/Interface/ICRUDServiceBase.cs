@@ -11,7 +11,7 @@ namespace NHSDP_Request_handling.Logic.Interface
     {
         Task CreateAsync(TEntity entity);
         Task<bool> DeleteAsync(Guid id);
-        Task Update(TEntity entity);
+        Task UpdateAsync(TEntity entity);
         Task<TEntity> Get(Guid id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> GetByFilter(Func<TEntity, bool> filterFunc);

@@ -33,15 +33,14 @@ namespace NHSDP_Request_handling.WEB.Controllers
             return View(offices);
         }
 
-        public async Task<IActionResult> UpdateOfficeView(OfficeVM office)
+        public async Task<IActionResult> UpdateView(OfficeVM office)
         {
-            
-            return View();
+            return View(office);
         }
 
         public async Task<IActionResult> Update(OfficeVM office)
         {
-
+            await officeService.UpdateAsync(mapper.Map<Office>(office));
             return RedirectToAction("Index");
         }
 
@@ -54,7 +53,6 @@ namespace NHSDP_Request_handling.WEB.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewData["ActionResultState"] = false;
                 ViewData["ActionResultMessage"] = "Enter valid data";
             }
             else
@@ -65,20 +63,20 @@ namespace NHSDP_Request_handling.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
-                ViewData["ActionResultState"] = false;
                 ViewData["ActionResultMessage"] = "ID was null";
             }
             else
             {
                 bool isDeleted = await officeService.DeleteAsync(id.Value);
 
-                ViewData["ActionResultState"] = isDeleted;
-                ViewData["ActionResultMessage"] = isDeleted ? "Office was deleted successfully" : "Office with ID given was not found";
+                if (!isDeleted)
+                {
+                    ViewData["ActionResultMessage"] = "Office with ID given was not found";
+                }
             }
 
             return RedirectToAction("Index");
