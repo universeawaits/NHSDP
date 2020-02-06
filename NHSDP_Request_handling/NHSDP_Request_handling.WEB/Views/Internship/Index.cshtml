@@ -18,18 +18,20 @@
         </tr>
         @foreach (InternshipVM internship in Model)
         {
-    <tr>
-        <td>@internship.Id.ToString().Substring(1, 10) ...</td>
-        <td>@internship.StartAt.ToShortDateString()</td>
-        <td>@internship.EndAt.ToShortDateString()</td>
-        <td>@internship.StudentsCount</td>
-        <td>@internship.MaxStudentsCount</td>
-        <td>@internship.EnrollmentState</td>
-        <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "Internship") + "?id=" + internship.Id + "'");" class="btn btn-primary" /></td>
-        <td><input type="button" value="Edit" onclick="@("window.location.href='" + @Url.Action("UpdateView", "Internship", internship) + "'");" class="btn btn-primary" /></td>
-    </tr>
+            <tr>
+                <td>@internship.Id.ToString().Substring(1, 10) ...</td>
+                <td>@internship.StartAt.ToShortDateString()</td>
+                <td>@internship.EndAt.ToShortDateString()</td>
+                <td>@internship.StudentsCount</td>
+                <td>@internship.MaxStudentsCount</td>
+                <td>@internship.EnrollmentState</td>
+                <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "Internship") + "?id=" + internship.Id + "'");" class="btn btn-primary" /></td>
+                <td><input type="button" value="Edit" onclick="@("window.location.href='" + @Url.Action("UpdateView", "Internship", internship) + "'");" class="btn btn-primary" /></td>
+            </tr>
         }
     </table>
 </div>
 
 <input type="button" value="Create internship" onclick="@("window.location.href='" + @Url.Action("CreateView", "Internship") + "'");" class="btn btn-primary" />
+<input type="button" value="View studying places" onclick="@("window.location.href='" + @Url.Action("Index", "StudyingPlace") + "'");" class="btn btn-primary" />
+<input type="button" value="View programs" onclick="@("window.location.href='" + @Url.Action("Index", "Program") + "'");" class="btn btn-primary" />

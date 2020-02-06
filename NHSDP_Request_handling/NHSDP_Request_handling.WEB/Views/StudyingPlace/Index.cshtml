@@ -1,0 +1,29 @@
+﻿@using NHSDP_Request_handling.WEB.ViewModel;
+@model IEnumerable<StudyingPlaceVM>
+@{
+    ViewData["Title"] = "Studying places";
+}
+
+<div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Internship ID</th>
+            <th>Office ID</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (StudyingPlaceVM sp in Model)
+        {
+            <tr>
+                <td>@sp.Id.ToString().Substring(1, 10) ...</td>
+                <td>@sp.InternshipId</td>
+                <td>@sp.OfficeId</td>
+                <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "StudyingPlace") + "?id=" + sp.Id + "'");" class="btn btn-primary" /></td>
+            </tr>
+        }
+    </table>
+</div>
+
+<input type="button" value="Add studying place" onclick="@("window.location.href='" + @Url.Action("CreateView", "StudyingPlace") + "'");" class="btn btn-primary" />
+<p style="color: red;">@ViewData["ActionResultMessage"]</p>

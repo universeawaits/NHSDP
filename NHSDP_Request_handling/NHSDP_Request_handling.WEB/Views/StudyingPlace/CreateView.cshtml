@@ -1,0 +1,29 @@
+﻿@model NHSDP_Request_handling.WEB.ViewModel.StudyingPlaceVM
+
+@{
+    ViewData["Title"] = "Add studying place";
+}
+
+<h4>Add studying place</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="InternshipId" class="control-label">Internship</label>
+                <select asp-for="InternshipId" class="form-control" asp-items="@((List<SelectListItem>)ViewData["Internships"])" required/>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfficeId" class="control-label">Office</label>
+                <select asp-for="OfficeId" class="form-control" asp-items="@((List<SelectListItem>)ViewData["Offices"])" required/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
