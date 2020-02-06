@@ -74,3 +74,26 @@ body {
     background-color: #f6f6ff;
     font-family: Calibri, Myriad;
 }
+
+th {
+    height: 20px;
+    text-align: center;
+}
+
+td {
+    vertical-align: central;
+}
+
+td, th {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+tr:hover {
+    background-color: #e4e8ef;
+}
+
+table {
+    margin-bottom: 15px;
+}
