@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 using NHSDP_Request_handling.Core.Model;
@@ -26,18 +27,23 @@ namespace NHSDP_Request_handling.WEB.Controllers
             this.internshipService = internshipService;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Internship> offices = await internshipService.GetAllAsync();
-            return View(offices);
+            IEnumerable<Internship> internships = await internshipService.GetAllAsync();
+            return View(internships);
         }
 
-        [ActionName("update")]
-        public async Task<IActionResult> UpdateInternship(Guid? id)
+        public async Task<IActionResult> UpdateView(InternshipVM internship)
         {
-            
-            return View();
+            return View(internship);
+        }
+
+        public async Task<IActionResult> Update(InternshipVM internship)
+        {
+            await internshipService.UpdateAsync(mapper.Map<Internship>(internship));
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> CreateView()
@@ -45,17 +51,35 @@ namespace NHSDP_Request_handling.WEB.Controllers
             return View();
         }
 
-        [ActionName("create")]
-        public async Task<IActionResult> Create(OfficeVM office)
+        public async Task<IActionResult> Create(InternshipVM internship)
         {
-
+            if (!ModelState.IsValid)
+            {
+                ViewData["ActionResultMessage"] = "Enter valid data";
+            }
+            else
+            {
+                await internshipService.CreateAsync(mapper.Map<Internship>(internship));
+            }
 
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteInternship(Guid? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
+            if (id == null)
+            {
+                ViewData["ActionResultMessage"] = "ID was null";
+            }
+            else
+            {
+                bool isDeleted = await internshipService.DeleteAsync(id.Value);
+
+                if (!isDeleted)
+                {
+                    ViewData["ActionResultMessage"] = "Internship with ID given was not found";
+                }
+            }
 
             return RedirectToAction("Index");
         }

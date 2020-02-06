@@ -18,16 +18,16 @@
         </tr>
         @foreach (Internship internship in Model)
         {
-            <tr>
-                <td>@internship.Id</td>
-                <td>@internship.StartAt.ToShortDateString()</td>
-                <td>@internship.EndAt.ToShortDateString()</td>
-                <td>@internship.StudentsCount</td>
-                <td>@internship.MaxStudentsCount</td>
-                <td>@internship.EnrollmentState</td>
-                <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "Internship") + "'");" class="btn btn-primary" /></td>
-                <td><button class="btn btn-primary">Edit</button></td>
-            </tr>
+    <tr>
+        <td>@internship.Id</td>
+        <td>@internship.StartAt.ToShortDateString()</td>
+        <td>@internship.EndAt.ToShortDateString()</td>
+        <td>@internship.StudentsCount</td>
+        <td>@internship.MaxStudentsCount</td>
+        <td>@internship.EnrollmentState</td>
+        <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "Internship") + "?id=" + internship.Id + "'");" class="btn btn-primary" /></td>
+        <td><input type="button" value="Edit" onclick="@("window.location.href='" + @Url.Action("UpdateView", "Internship", internship) + "'");" class="btn btn-primary" /></td>
+    </tr>
         }
     </table>
 </div>
