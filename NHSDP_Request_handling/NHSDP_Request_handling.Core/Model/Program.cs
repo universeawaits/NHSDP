@@ -7,5 +7,8 @@ namespace NHSDP_Request_handling.Core.Model
     {
         public Guid InternshipId { get; set; }
         public Guid CourseId { get; set; }
+
+        public Internship Internship { get; set; }
+        public Course Course { get; set; }
     }
 }

@@ -25,5 +25,30 @@ namespace NHSDP_Request_handling.Core
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Program>()
+                .HasOne<Internship>(p => p.Internship)
+                .WithMany(i => i.Programs)
+                .HasForeignKey(p => p.InternshipId)
+                .OnDelete(DeleteBehavior.Cascade);  
+            modelBuilder.Entity<Program>()
+                .HasOne<Course>(p => p.Course)
+                .WithMany(c => c.Programs)
+                .HasForeignKey(p => p.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<StudyingPlace>()
+                .HasOne<Internship>(sp => sp.Internship)
+                .WithMany(i => i.StudyingPlaces)
+                .HasForeignKey(sp => sp.InternshipId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<StudyingPlace>()
+                .HasOne<Office>(sp => sp.Office)
+                .WithMany(o => o.StudyingPlaces)
+                .HasForeignKey(sp => sp.OfficeId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
