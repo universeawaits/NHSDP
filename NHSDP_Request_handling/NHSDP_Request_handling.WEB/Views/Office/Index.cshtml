@@ -1,5 +1,5 @@
-﻿@using NHSDP_Request_handling.Core.Model;
-@model IEnumerable<Office>
+﻿@using NHSDP_Request_handling.WEB.ViewModel;
+@model IEnumerable<OfficeVM>
 @{
     ViewData["Title"] = "Offices";
 }
@@ -13,7 +13,7 @@
             <th></th>
             <th></th>
         </tr>
-        @foreach (Office office in Model)
+        @foreach (OfficeVM office in Model)
         {
             <tr>
                 <td>@office.Id</td>

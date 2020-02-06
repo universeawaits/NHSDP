@@ -27,12 +27,11 @@ namespace NHSDP_Request_handling.WEB.Controllers
             this.internshipService = internshipService;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             IEnumerable<Internship> internships = await internshipService.GetAllAsync();
-            return View(internships);
+            return View(mapper.Map<IEnumerable<InternshipVM>>(internships));
         }
 
         public async Task<IActionResult> UpdateView(InternshipVM internship)
@@ -59,6 +58,7 @@ namespace NHSDP_Request_handling.WEB.Controllers
             }
             else
             {
+                internship.EnrollmentState = "InProgress";
                 await internshipService.CreateAsync(mapper.Map<Internship>(internship));
             }
 

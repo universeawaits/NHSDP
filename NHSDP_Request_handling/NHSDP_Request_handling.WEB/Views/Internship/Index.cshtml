@@ -1,5 +1,5 @@
-﻿@using NHSDP_Request_handling.Core.Model;
-@model IEnumerable<Internship>
+﻿@using NHSDP_Request_handling.WEB.ViewModel;
+@model IEnumerable<InternshipVM>
 @{
     ViewData["Title"] = "Internships";
 }
@@ -16,7 +16,7 @@
             <th></th>
             <th></th>
         </tr>
-        @foreach (Internship internship in Model)
+        @foreach (InternshipVM internship in Model)
         {
     <tr>
         <td>@internship.Id</td>

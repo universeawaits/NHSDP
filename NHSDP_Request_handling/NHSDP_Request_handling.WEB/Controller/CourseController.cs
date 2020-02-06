@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 using NHSDP_Request_handling.Core.Model;
@@ -13,34 +14,34 @@ using NHSDP_Request_handling.WEB.ViewModel;
 
 namespace NHSDP_Request_handling.WEB.Controllers
 {
-    public class OfficeController : Controller
+    public class CourseController : Controller
     {
-        private readonly ICRUDServiceBase<Office> officeService;
-        private readonly ILogger<OfficeController> logger;
+        private readonly ICRUDServiceBase<Course> courseService;
+        private readonly ILogger<CourseController> logger;
         private readonly IMapper mapper;
 
-        public OfficeController(ILogger<OfficeController> logger, IMapper mapper, ICRUDServiceBase<Office> officeService)
+        public CourseController(ILogger<CourseController> logger, IMapper mapper, ICRUDServiceBase<Course> internshipService)
         {
             this.logger = logger;
             this.mapper = mapper;
-            this.officeService = officeService;
+            this.courseService = internshipService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Office> offices = await officeService.GetAllAsync();
-            return View(mapper.Map<IEnumerable<OfficeVM>>(offices));
+            IEnumerable<Course> courses = await courseService.GetAllAsync();
+            return View(mapper.Map<IEnumerable<CourseVM>>(courses));
         }
 
-        public async Task<IActionResult> UpdateView(OfficeVM office)
+        public async Task<IActionResult> UpdateView(CourseVM course)
         {
-            return View(office);
+            return View(course);
         }
 
-        public async Task<IActionResult> Update(OfficeVM office)
+        public async Task<IActionResult> Update(CourseVM course)
         {
-            await officeService.UpdateAsync(mapper.Map<Office>(office));
+            await courseService.UpdateAsync(mapper.Map<Course>(course));
             return RedirectToAction("Index");
         }
 
@@ -49,7 +50,7 @@ namespace NHSDP_Request_handling.WEB.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Create(OfficeVM office)
+        public async Task<IActionResult> Create(CourseVM course)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +58,7 @@ namespace NHSDP_Request_handling.WEB.Controllers
             }
             else
             {
-                await officeService.CreateAsync(mapper.Map<Office>(office));
+                await courseService.CreateAsync(mapper.Map<Course>(course));
             }
 
             return RedirectToAction("Index");
@@ -71,11 +72,11 @@ namespace NHSDP_Request_handling.WEB.Controllers
             }
             else
             {
-                bool isDeleted = await officeService.DeleteAsync(id.Value);
+                bool isDeleted = await courseService.DeleteAsync(id.Value);
 
                 if (!isDeleted)
                 {
-                    ViewData["ActionResultMessage"] = "Office with ID given was not found";
+                    ViewData["ActionResultMessage"] = "Internship with ID given was not found";
                 }
             }
 
