@@ -49,6 +49,20 @@ namespace NHSDP_Request_handling.Core
                 .WithMany(o => o.StudyingPlaces)
                 .HasForeignKey(sp => sp.OfficeId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Course>()
+                .HasIndex(c => c.Technology + " " + c.HoursCount)
+                .IsUnique();
+
+            modelBuilder.Entity<Program>()
+                .HasIndex(p => p.InternshipId + " " + p.CourseId)
+                .IsUnique();
+
+            modelBuilder.Entity<StudyingPlace>()
+                .HasIndex(sp => sp.InternshipId + " " + sp.OfficeId)
+                .IsUnique();
+
+            modelBuilder.Entity<Internship>().HasQueryFilter(i => i.StartAt.Ticks <= i.EndAt.Ticks);
         }
     }
 }
