@@ -16,7 +16,7 @@
         @foreach (StudyingPlaceVM sp in Model)
         {
             <tr>
-                <td>@sp.Id.ToString().Substring(1, 10) ...</td>
+                <td>@sp.Id.ToString().Substring(0, 10) ...</td>
                 <td>@sp.InternshipId</td>
                 <td>@sp.OfficeId</td>
                 <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "StudyingPlace") + "?id=" + sp.Id + "'");" class="btn btn-primary" /></td>

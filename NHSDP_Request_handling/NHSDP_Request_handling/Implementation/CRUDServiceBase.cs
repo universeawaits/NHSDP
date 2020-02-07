@@ -29,7 +29,7 @@ namespace NHSDP_Request_handling.Logic.Implementation
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            TEntity found = await uow.Context.Set<TEntity>().FindAsync(id);
+            TEntity found = uow.Context.Set<TEntity>().IgnoreQueryFilters().First(e => e.Id == id);
             
             if (found == null)
             {
@@ -51,12 +51,12 @@ namespace NHSDP_Request_handling.Logic.Implementation
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return uow.Context.Set<TEntity>().AsNoTracking().AsEnumerable();
+            return uow.Context.Set<TEntity>().IgnoreQueryFilters().AsNoTracking().AsEnumerable();
         }
 
         public async Task<IEnumerable<TEntity>> GetByFilter(Func<TEntity, bool> filterFunc)
         {
-            return uow.Context.Set<TEntity>().AsNoTracking().Where(filterFunc);
+            return uow.Context.Set<TEntity>().IgnoreQueryFilters().AsNoTracking().Where(filterFunc);
         }
 
         public async Task UpdateAsync(TEntity entity)

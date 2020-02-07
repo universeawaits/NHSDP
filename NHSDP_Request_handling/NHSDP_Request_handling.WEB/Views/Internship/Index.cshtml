@@ -19,7 +19,7 @@
         @foreach (InternshipVM internship in Model)
         {
             <tr>
-                <td>@internship.Id.ToString().Substring(1, 10) ...</td>
+                <td>@internship.Id.ToString().Substring(0, 10) ...</td>
                 <td>@internship.StartAt.ToShortDateString()</td>
                 <td>@internship.EndAt.ToShortDateString()</td>
                 <td>@internship.StudentsCount</td>

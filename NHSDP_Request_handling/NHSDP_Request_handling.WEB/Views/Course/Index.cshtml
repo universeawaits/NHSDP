@@ -16,7 +16,7 @@
         @foreach (CourseVM course in Model)
         {
             <tr>
-                <td>@course.Id.ToString().Substring(1, 10) ...</td>
+                <td>@course.Id.ToString().Substring(0, 10) ...</td>
                 <td>@course.Technology</td>
                 <td>@course.HoursCount</td>
                 <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "Course") + "?id=" + course.Id + "'");" class="btn btn-primary" /></td>

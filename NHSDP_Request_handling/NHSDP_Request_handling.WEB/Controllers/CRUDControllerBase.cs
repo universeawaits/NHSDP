@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using NHSDP_Request_handling.Core.Model;
 using NHSDP_Request_handling.Logic.Interface;
+using NHSDP_Request_handling.WEB.Filters;
 using NHSDP_Request_handling.WEB.ViewModel;
 
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace NHSDP_Request_handling.WEB.Controllers
 {
+    [ExceptionGuard]
     public abstract class CRUDControllerBase<TEntityCore, TEntityVM> : Controller where TEntityCore : EntityBase where TEntityVM : EntityBaseVM
     {
         protected ICRUDServiceBase<TEntityCore> entityService;

@@ -16,7 +16,7 @@
         @foreach (OfficeVM office in Model)
         {
             <tr>
-                <td>@office.Id.ToString().Substring(1, 10) ...</td>
+                <td>@office.Id.ToString().Substring(0, 10) ...</td>
                 <td>@office.Adress</td>
                 <td>@office.CabinetsCount</td>
                 <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "Office") + "?id=" + office.Id + "'");" class="btn btn-primary" /></td>

@@ -51,15 +51,15 @@ namespace NHSDP_Request_handling.Core
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Course>()
-                .HasIndex(c => c.Technology + " " + c.HoursCount)
+                .HasIndex(c => new { c.Technology, c.HoursCount })
                 .IsUnique();
 
             modelBuilder.Entity<Program>()
-                .HasIndex(p => p.InternshipId + " " + p.CourseId)
+                .HasIndex(p => new { p.InternshipId, p.CourseId })
                 .IsUnique();
 
             modelBuilder.Entity<StudyingPlace>()
-                .HasIndex(sp => sp.InternshipId + " " + sp.OfficeId)
+                .HasIndex(sp => new { sp.InternshipId, sp.OfficeId })
                 .IsUnique();
 
             modelBuilder.Entity<Internship>().HasQueryFilter(i => i.StartAt.Ticks <= i.EndAt.Ticks);
