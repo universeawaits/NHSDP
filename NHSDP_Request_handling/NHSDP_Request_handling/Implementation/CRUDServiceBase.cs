@@ -3,6 +3,7 @@ using NHSDP_Request_handling.Logic.Interface;
 using NHSDP_Request_handling.Core.Model;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,20 @@ namespace NHSDP_Request_handling.Logic.Implementation
             this.uow = uow;
         }
 
-        public async Task CreateAsync(TEntity entity)
+        public async Task<string> CreateAsync(TEntity entity)
         {
-            await uow.Context.Set<TEntity>().AddAsync(entity);
-            await uow.CommitAsync();
+            EntityEntry<TEntity> ee = await uow.Context.Set<TEntity>().AddAsync(entity);
+
+            try
+            {
+                await uow.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            }
+
+            return null;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
@@ -59,10 +70,20 @@ namespace NHSDP_Request_handling.Logic.Implementation
             return uow.Context.Set<TEntity>().IgnoreQueryFilters().AsNoTracking().Where(filterFunc);
         }
 
-        public async Task UpdateAsync(TEntity entity)
+        public async Task<string> UpdateAsync(TEntity entity)
         {
             uow.Context.Set<TEntity>().Update(entity);
-            await uow.CommitAsync();
+
+            try
+            {
+                await uow.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+            }
+
+            return null;
         }
     }
 }

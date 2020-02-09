@@ -5,7 +5,7 @@ using NHSDP_Request_handling.Core.Model;
 using NHSDP_Request_handling.Logic.Interface;
 using NHSDP_Request_handling.WEB.Filters;
 using NHSDP_Request_handling.WEB.ViewModel;
-
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -32,8 +32,14 @@ namespace NHSDP_Request_handling.WEB.Controllers
 
         public virtual async Task<IActionResult> Update(TEntityVM entity)
         {
-            await entityService.UpdateAsync(mapper.Map<TEntityCore>(entity));
-            return RedirectToAction("Index");
+            TempData["Message"] = await entityService.UpdateAsync(mapper.Map<TEntityCore>(entity));
+
+            if (TempData["Message"] == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View("UpdateView", entity);
         }
 
         public virtual async Task<IActionResult> CreateView()
@@ -43,23 +49,21 @@ namespace NHSDP_Request_handling.WEB.Controllers
 
         public virtual async Task<IActionResult> Create(TEntityVM entity)
         {
-            if (!ModelState.IsValid)
+            TempData["Message"] = await entityService.CreateAsync(mapper.Map<TEntityCore>(entity));
+            
+            if (TempData["Message"] == null)
             {
-                ViewData["ActionResultMessage"] = "Enter valid data";
-            }
-            else
-            {
-                await entityService.CreateAsync(mapper.Map<TEntityCore>(entity));
+                return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Index");
+            return View("CreateView", entity);
         }
 
         public virtual async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
-                ViewData["ActionResultMessage"] = "ID was null";
+                TempData["Message"] = "ID was null";
             }
             else
             {
@@ -67,7 +71,7 @@ namespace NHSDP_Request_handling.WEB.Controllers
 
                 if (!isDeleted)
                 {
-                    ViewData["ActionResultMessage"] = "Entity with ID given was not found";
+                    TempData["Message"] = "Entity with ID given was not found";
                 }
             }
 
