@@ -1,0 +1,28 @@
+﻿@using NHSDP_SPA.WEB.ViewModel;
+@model IEnumerable<ProgramVM>
+@{
+    ViewData["Title"] = "Internship studying programs";
+}
+
+<div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Internship ID</th>
+            <th>Course ID</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (ProgramVM sp in Model)
+        {
+            <tr>
+                <td>@sp.Id.ToString().Substring(0, 10) ...</td>
+                <td>@sp.InternshipId</td>
+                <td>@sp.CourseId</td>
+                <td><input type="button" value="Delete" onclick="@("window.location.href='" + @Url.Action("Delete", "Program") + "?id=" + sp.Id + "'");" class="btn btn-primary" /></td>
+            </tr>
+        }
+    </table>
+</div>
+
+<input type="button" value="Add studying place" onclick="@("window.location.href='" + @Url.Action("CreateView", "Program") + "'");" class="btn btn-primary" />

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NHSDP_Request_handling.Core\NHSDP_SPA.Core.csproj" />
+    <ProjectReference Include="..\NHSDP_SPA.Core\NHSDP_SPA.Core.csproj" />
+    <ProjectReference Include="..\NHSDP_SPA.Core\NHSDP_SPA.Core.csproj" />
+  </ItemGroup>
+
+</Project>

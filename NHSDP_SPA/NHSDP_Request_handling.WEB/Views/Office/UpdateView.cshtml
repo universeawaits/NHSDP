@@ -1,0 +1,32 @@
+﻿@model NHSDP_SPA.WEB.ViewModel.OfficeVM
+
+@{
+    ViewData["Title"] = "Edit office";
+}
+
+<h4>Update office</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update">
+            <div class="form-group">
+                <input hidden asp-for="Id" value="@Model.Id" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adress" class="control-label"></label>
+                <input asp-for="Adress" value="@Model.Adress" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label asp-for="CabinetsCount" class="control-label">Cabinets count</label>
+                <input asp-for="CabinetsCount" value="@Model.CabinetsCount" class="form-control" type="number" min="1" required/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
