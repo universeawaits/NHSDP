@@ -14,5 +14,6 @@ namespace NHSDP_SPA.Core.Model
 
         public ICollection<Program> Programs { get; set; }
         public ICollection<StudyingPlace> StudyingPlaces { get; set; }
+        public ICollection<Enrollment> Enrollments { get; set; }
     }
 }
