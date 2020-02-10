@@ -14,6 +14,7 @@ namespace NHSDP_SPA.Core
         public DbSet<Program> Programs { get; set; }
         public DbSet<Office> Offices { get; set; }
         public DbSet<StudyingPlace> StudyingPlaces { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
 
         public InternshipContext() { }
 

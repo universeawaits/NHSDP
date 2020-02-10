@@ -9,6 +9,8 @@ namespace NHSDP_SPA.WEB.Controllers
 {
     public class EnrollmentController : CRUDControllerBase<Enrollment, EnrollmentVM>
     {
+        public static string[] EnrollmentStates = { "Applied", "Discarded", "Reviewing" };
+
         public EnrollmentController(IMapper mapper, ICRUDServiceBase<Enrollment> enrollmentService)
         {
             this.mapper = mapper;
