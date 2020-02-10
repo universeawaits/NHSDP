@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NHSDP_Request_handling.Core\NHSDP_SPA.Core.csproj" />
-    <ProjectReference Include="..\NHSDP_Request_handling\NHSDP_SPA.Logic.csproj" />
+    <ProjectReference Include="..\NHSDP_SPA.Core\NHSDP_SPA.Core.csproj" />
+    <ProjectReference Include="..\NHSDP_SPA\NHSDP_SPA.Logic.csproj" />
     <ProjectReference Include="..\NHSDP_SPA.Core\NHSDP_SPA.Core.csproj" />
     <ProjectReference Include="..\NHSDP_SPA\NHSDP_SPA.Logic.csproj" />
   </ItemGroup>
