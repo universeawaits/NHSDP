@@ -29,20 +29,6 @@ namespace NHSDP_SPA.WEB
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<InternshipContext>()
-                .AddDefaultTokenProviders();
-            services.Configure<IdentityOptions>(
-                options =>
-                {
-                    options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 8;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireLowercase = false;
-
-                    options.User.RequireUniqueEmail = true;
-                });
             services.AddDbContext<InternshipContext>(
                 options =>
                 {

@@ -14,14 +14,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NHSDP_SPA.Core\NHSDP_SPA.Core.csproj" />
-    <ProjectReference Include="..\NHSDP_SPA\NHSDP_SPA.Logic.csproj" />
-    <ProjectReference Include="..\NHSDP_SPA.Core\NHSDP_SPA.Core.csproj" />
-    <ProjectReference Include="..\NHSDP_SPA\NHSDP_SPA.Logic.csproj" />
+    <ProjectReference Include="..\NHSDP_SPA.Logic\NHSDP_SPA.Logic.csproj" />
   </ItemGroup>
 
 
