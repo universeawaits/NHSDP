@@ -48,5 +48,17 @@ namespace NHSDP_Request_handling.WEB.Controllers
 
             return await base.CreateView();
         }
+
+        public override async Task<IActionResult> Create(StudyingPlaceVM sp)
+        {
+            TempData["Message"] = await entityService.CreateAsync(mapper.Map<StudyingPlace>(sp));
+
+            if (TempData["Message"] == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("CreateView");
+        }
     }
 }
