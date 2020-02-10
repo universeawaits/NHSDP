@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -96,12 +97,26 @@ namespace NHSDP_SPA.WEB
             {
                 app.UseHsts();
             }
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials());
+            app.UseAuthentication();
             app.UseHttpsRedirection();
+
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            app.Use(async (context, next) =>
+            {
+                if (context.Response.StatusCode != StatusCodes.Status401Unauthorized)
+                {
+                    await next.Invoke();
+                }
+            });
             app.UseRouting();
-
-            app.UseAuthorization();
         }
     }
 }
