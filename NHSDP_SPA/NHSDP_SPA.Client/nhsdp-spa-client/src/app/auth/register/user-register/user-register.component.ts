@@ -13,7 +13,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class UserRegisterComponent implements OnInit {
   registerForm: FormGroup;
-  @ViewChild('password', { static: false }) passwordField: ElementRef;
+  @ViewChild('password') passwordField: ElementRef;
 
   constructor(
     //private userService: UserService,
