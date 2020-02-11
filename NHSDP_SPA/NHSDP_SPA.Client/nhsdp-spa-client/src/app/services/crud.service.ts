@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CrudService {
   private entityClass: string;
+  private guard: boolean;
   private searchUrl: string = environment.appUrl + 'api/' + this.entityClass;
 
   constructor(
@@ -22,4 +23,40 @@ export class CrudService {
     );
     return result;
   }
+
+  getAll() {
+    let result = new Observable<any>();
+    result = this.httpClient.get(
+      this.searchUrl,
+      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token')} }
+    );
+    return result;
+  }
+
+  create(entity: any) {
+    let result = new Observable<any>();
+    result = this.httpClient.post(
+      this.searchUrl,
+      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token')} }
+    );
+    return result;
+  }  
+
+  update(entity: any) {
+    let result = new Observable<any>();
+    result = this.httpClient.put(
+      this.searchUrl,
+      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token')} }
+    );
+    return result;
+  }  
+
+  delete(entity: any) {
+    let result = new Observable<any>();
+    result = this.httpClient.delete(
+      this.searchUrl,
+      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token')} }
+    );
+    return result;
+  }  
 }
