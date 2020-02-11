@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/server/user.service';
+//import { UserService } from 'src/app/services/server/user.service';
 import { Title } from '@angular/platform-browser';
-import { SnackbarService } from 'src/app/services/component/snackbar.service';
+//import { SnackbarService } from 'src/app/services/component/snackbar.service';
 
 @Component({
   selector: 'user-register',
@@ -16,8 +16,8 @@ export class UserRegisterComponent implements OnInit {
   @ViewChild('password', { static: false }) passwordField: ElementRef;
 
   constructor(
-    private userService: UserService,
-    private snackbarService: SnackbarService,
+    //private userService: UserService,
+    //private snackbarService: SnackbarService,
     private router: Router,
     private titleService: Title
     ) { }
@@ -56,19 +56,19 @@ export class UserRegisterComponent implements OnInit {
   }
 
   submit() {
-    this.userService.register({ 
-      Username: this.registerForm.get('name').value,
-      Email: this.registerForm.get('email').value,
-      Phone: this.registerForm.get('phone').value,
-      Password: this.registerForm.get('password').value
-    }).subscribe(
-      () => {
-        this.snackbarService.open("check you email", true);
-        this.router.navigateByUrl('/login');
-      },
-      response => {
-        this.snackbarService.open(response.error, false);
-      }
-    );
+    // this.userService.register({ 
+    //   Username: this.registerForm.get('name').value,
+    //   Email: this.registerForm.get('email').value,
+    //   Phone: this.registerForm.get('phone').value,
+    //   Password: this.registerForm.get('password').value
+    // }).subscribe(
+    //   () => {
+    //     this.snackbarService.open("check you email", true);
+    //     this.router.navigateByUrl('/login');
+    //   },
+    //   response => {
+    //     this.snackbarService.open(response.error, false);
+    //   }
+    // );
   }
 }

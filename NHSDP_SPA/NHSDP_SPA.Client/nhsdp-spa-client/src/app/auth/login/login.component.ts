@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/server/auth.service';
+//import { AuthService } from 'src/app/services/server/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
-import { SnackbarService } from 'src/app/services/component/snackbar.service';
+//import { SnackbarService } from 'src/app/services/component/snackbar.service';
 
 @Component({
   selector: 'login',
@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    private snackbarService: SnackbarService,
+    //private authService: AuthService,
+    //private snackbarService: SnackbarService,
     private titleService: Title
   ) { }
 
@@ -31,20 +31,20 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    this.authService.login(
-      this.loginForm.get('login').value, 
-      this.loginForm.get('password').value
-      ).subscribe(
-        response =>
-        {
-          localStorage.setItem("jwt:token", response.token),
-          localStorage.setItem("jwt:email", response.email)
-          this.router.navigateByUrl('/profile');
-        },
-        response => 
-        {
-          this.snackbarService.open(response.error, false);
-        }
-      )
+    // this.authService.login(
+    //   this.loginForm.get('login').value, 
+    //   this.loginForm.get('password').value
+    //   ).subscribe(
+    //     response =>
+    //     {
+    //       localStorage.setItem("jwt:token", response.token),
+    //       localStorage.setItem("jwt:email", response.email)
+    //       this.router.navigateByUrl('/profile');
+    //     },
+    //     response => 
+    //     {
+    //       this.snackbarService.open(response.error, false);
+    //     }
+    //   );
   }
 }
