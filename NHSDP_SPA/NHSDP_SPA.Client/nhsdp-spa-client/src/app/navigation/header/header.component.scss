@@ -1,0 +1,26 @@
+.header {
+  background: transparent;
+  backdrop-filter: blur(50px);
+  
+  height: 64px;
+
+  transition: all 0.2s linear;
+  border-bottom: 1px solid rgba(#e4e4e4, 0.5);
+}
+
+.header-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.disabled {
+  height: 0px;
+  overflow: hidden;
+  transition: all 0.2s linear;
+}
+
+span {
+  margin: 0 30px 0 30px;
+}

@@ -8,7 +8,6 @@ import { environment } from 'src/environments/environment';
 })
 export class CrudService {
   private entityClass: string;
-  private guard: boolean;
   private searchUrl: string = environment.appUrl + 'api/' + this.entityClass;
 
   constructor(
