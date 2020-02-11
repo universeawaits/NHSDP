@@ -12,6 +12,9 @@ import { AuthModule } from './auth/auth.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { InternshipModule } from './internship/internship.module';
+import { CourseModule } from './course/course.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ContactModule,
     RegisterModule,
     AuthModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule,
+    InternshipModule,
+    CourseModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

@@ -327,12 +327,13 @@ mat-form-field {
   font-size: 16px;
 }
 
-mat-card {
+mat-card, table[mat-table] {
   background-color: transparent !important;
   backdrop-filter: blur(50px);
 
   padding: 15px !important;
   border-radius: 0px !important;
+  border: 1px solid rgba(#e4e4e4, 0.5);
 }
 
 mat-icon {
@@ -360,4 +361,8 @@ input {
   color: $dark-text;
   font-family: 'Montserrat';
   font-size: 16px;
+}
+
+table[mat-table], th.mat-header-cell {
+  text-align: center !important;
 }

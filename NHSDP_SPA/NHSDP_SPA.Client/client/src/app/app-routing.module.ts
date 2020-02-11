@@ -5,12 +5,16 @@ import { UserProfileComponent } from './profile/user-profile/user-profile.compon
 import { UserRegisterComponent } from './auth/register/user-register/user-register.component';
 import { AuthComponent } from './auth/auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
+import { InternshipComponent } from './internship/internship/internship.component';
+import { CourseComponent } from './course/course/course.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'internships', pathMatch: 'full' },
   { path: 'my', component: UserProfileComponent, canActivate: [ AuthGuard ] },
   { path: 'register', component: UserRegisterComponent },
   { path: 'login', component: AuthComponent },
+  { path: 'internships', component: InternshipComponent },
+  { path: 'courses', component: CourseComponent },
 ];
 
 @NgModule({
