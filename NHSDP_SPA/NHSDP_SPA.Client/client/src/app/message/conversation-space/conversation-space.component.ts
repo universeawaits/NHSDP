@@ -4,7 +4,8 @@ import { MessageService } from '../../services/server/message.service';
 import { Subscription } from 'rxjs';
 import { ContactListProfileBindingService } from 'src/app/services/component/contact-list-profile-binding.service';
 import { Contact } from 'src/app/model/contact';
-import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { EmojiDialogComponent } from '../emoji-dialog/emoji-dialog.component';
 import { EmojiIntoMessageService } from 'src/app/services/component/emoji-into-message.service';
 

@@ -8,7 +8,7 @@ import { ContactListSearchBindingService } from 'src/app/services/component/cont
 import { ContactService } from 'src/app/services/server/contact.service';
 import { SnackbarService } from 'src/app/services/component/snackbar.service';
 import { ShareContactMessageBindingService } from 'src/app/services/component/share-contact-message-binding.service';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { ShareContactDialogComponent } from '../share-contact-dialog/share-contact-dialog.component';
 import { ShareContactProfileBindingService } from 'src/app/services/component/share-contact-profile-binding.service';
 
