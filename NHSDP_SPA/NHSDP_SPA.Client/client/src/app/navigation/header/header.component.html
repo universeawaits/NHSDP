@@ -1,9 +1,15 @@
 <mat-toolbar class="header mat-elevation-z8">
     <mat-toolbar-row class="header-actions">
-        <span *ngFor="let action of actions">
-            <button mat-icon-button disableRipple [routerLink]="[action.path]">
-              <mat-icon>{{ action.icon }}</mat-icon>
+        <a [routerLink]="['internships']">internships</a>
+        <a [routerLink]="['courses']">courses</a>
+        <section id="my">
+            no
+            <button mat-icon-button disableRipple [routerLink]="['my']">
+                <mat-icon>person</mat-icon>
             </button>
-        </span>
+            edge
+        </section>
+        <a [routerLink]="['offices']">offices</a>
+        <a [routerLink]="['teachers']">teachers</a>
     </mat-toolbar-row>
 </mat-toolbar>

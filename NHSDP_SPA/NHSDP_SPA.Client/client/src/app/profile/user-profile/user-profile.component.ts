@@ -38,7 +38,7 @@ export class UserProfileComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('skies :: profile');
+    this.titleService.setTitle('noedge :: profile');
 
     this.editForm = new FormGroup({
       name: new FormControl('', [ 
