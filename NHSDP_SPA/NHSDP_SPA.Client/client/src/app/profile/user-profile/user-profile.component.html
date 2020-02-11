@@ -1,0 +1,62 @@
+<mat-card class="profile-card mat-elevation-z10" [class.profile-card-edit-mode]="mode == 'edit'">
+    <form [formGroup]="editForm">
+        <div *ngIf="mode == 'view'" class="profile-card-header">{{ user.name }}</div>
+        <div *ngIf="mode == 'edit'">
+            <mat-form-field hintLabel="count between 3 and 20">
+                <input matInput maxlength="20" formControlName="name" type="text" placeholder="name" value="{{ user.name }}">
+                <button mat-button matSuffix mat-icon-button (click)="clearControl('name')">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="editForm.get('name').errors?.required">required</mat-error>
+                <mat-error *ngIf="editForm.get('name').errors?.pattern">alphabet characters only</mat-error>
+                <mat-error *ngIf="editForm.get('name').errors?.minlength">count between 3 and 20</mat-error>
+            </mat-form-field>
+        </div>
+    
+        <div class="profile-card-avatar-container">
+            <img draggable="false" src="{{ user.avatar }}"
+            [matTooltipDisabled]="mode == 'view'"
+            matTooltip="change avatar"
+            [matTooltipPosition]="'right'"
+            [matTooltipShowDelay]="500"
+            matTooltipClass="tooltip mat-elevation-z8"
+            class="profile-card-avatar mat-elevation-z7"
+            [class.avatar-img-edit-mode]="mode == 'edit'">
+        <button [hidden]="mode == 'view'" mat-icon-button type="button" (click)="fileInput.click()" class="avatar-button">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <input hidden #fileInput (change)="processFile(fileInput)" type="file" accept=".jpg, .jpeg, .png">
+        </div>
+
+        <div *ngIf="mode == 'edit'">
+            <mat-form-field>
+                <input matInput maxlength="8" formControlName="password" type="password" placeholder="password">
+                <button mat-button matSuffix mat-icon-button aria-label="clear" (click)="clearControl('password')">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="editForm.get('password').errors?.required">required</mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+
+    <div *ngIf="mode == 'view'" class="profile-card-content">
+        <br>
+        {{ user.email }}
+        <br>
+        {{ user.phone }}
+    </div>
+
+    <div *ngIf="mode == 'view'" class="profile-card-footer">registered {{ user.registered | date }}</div>
+    
+    <div class="profile-card-actions">
+        <button *ngIf="mode == 'edit'" type="reset" mat-icon-button (click)="cancelEdit()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <button mat-icon-button type="reset" [disabled]="editForm.invalid" (click)="changeMode()">
+            <mat-icon>{{ changeModeIcon }}</mat-icon>
+        </button>
+        <button *ngIf="mode == 'view'" mat-icon-button (click)="logout()">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </div>
+</mat-card>

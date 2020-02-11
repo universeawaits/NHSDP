@@ -1,0 +1,56 @@
+<div class="conversation-space-container mat-elevation-z10">    
+    <div *ngIf="!toEmail" class="null-contact">select a contact to start conversation</div>
+    <div *ngIf="toEmail">
+        <div class="contact-info">
+            <span *ngIf="!receiver.pseudonym" class="contact-info-name"> {{ receiver.user.name }} </span>
+            <span *ngIf="receiver.pseudonym" class="contact-info-name"> {{ receiver.pseudonym }} </span>
+            <span class="contact-info-email"> {{ receiver.user.email }} </span>
+            <div id="clearHistory">
+                <button disableRipple mat-icon-button (click)="clearHistory()">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="messages-container">
+            <div *ngFor="let message of messages" class="message-container">
+                <div [class.message-from]="message.fromEmail == toEmail"
+                [class.message-to]="message.fromEmail == fromEmail">
+                    <button *ngIf="message.type == 'Contact'"
+                        disableRipple class="contacts-button" mat-button 
+                        (click)="openSharedContactProfileDialog(message.text)">
+                        {{ message.text }}
+                    </button>
+                    <span *ngIf="message.type == 'Text'">
+                        {{ message.text }}
+                    </span>
+                    <div *ngIf="message.type == 'Media'">
+                        <img *ngIf="message.messageMedia.type == 'Image'" 
+                            src="{{ message.messageMedia.link }}"
+                            draggable="false">
+                        <audio *ngIf="message.messageMedia.type == 'Audio'"
+                            controls preload="metadata"
+                            src="{{ message.messageMedia.link }}">
+                        </audio>
+                        <video *ngIf="message.messageMedia.type == 'Video'"
+                            controls preload="metadata"
+                            src="{{ message.messageMedia.link }}">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="message-actions-container">
+            <input class="message-send-text" type="text" [(ngModel)]="messageText" placeholder="type some words...">
+            <button mat-icon-button disableRipple type="button" (click)="fileInput.click()">
+                <mat-icon>add</mat-icon>
+            </button>
+            <input hidden multiple="false" #fileInput (change)="processFile(fileInput)" type="file" accept=".jpg, .jpeg, .mp4, .mp3">
+            <button [disabled]="emojiDialogOpened" mat-icon-button disableRipple (click)="openEmojiDialog()">
+                <mat-icon>emoji_emotions</mat-icon>
+            </button>
+            <button mat-icon-button disableRipple (click)="sendTextMessage()">
+                <mat-icon>send</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+$avatar-width: 250px;
+
+.profile-card {
+    width: $avatar-width + 50px;
+    border-radius: 0px;
+    height: $avatar-width * 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    transition: all 0.5s linear;
+    border: 1px solid rgba(#e4e4e4, 0.5);
+}
+
+.profile-card-edit-mode {
+    height: $avatar-width * 2 + 40px;
+
+    transition: all 0.5s linear;
+}
+
+.profile-card-header {
+    word-break: break-all;
+
+    margin: 15px;
+
+    text-shadow: 0 0 3px #e4e4e4;
+    font-size: 24px;
+    transition: all 0.2s ease-in;
+}
+
+.profile-card-avatar-container {
+    position: relative;
+    transition: all 0.2s ease-in;
+}
+
+.profile-card-avatar {
+    padding: 1px;
+    border: 4px solid rgba($color: #5e5e5e, $alpha: 0.2);
+    border-radius: 50%;
+    margin: 10px 30px 10px 30px;
+
+    width: $avatar-width;
+  
+    transition: all 0.2s ease-in;
+}
+
+.avatar-img-edit-mode {
+    filter: blur(3px);
+    opacity: 0.2;
+    transition: all 0.2s ease-in;
+}
+
+.avatar-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    cursor: pointer;
+    background: none;
+    outline: none;
+}
+
+.avatar-button ::ng-deep  mat-icon {
+    width: $avatar-width / 5 !important;
+    height: $avatar-width / 5 !important;
+    font-size: $avatar-width / 5 !important;
+}
+
+.profile-card-content {
+    word-break: break-all;
+    font-size: 16px;
+
+    margin:  0 15px 15px 15px;
+    transition: all 0.2s ease-in;
+}
+
+.profile-card-footer {
+    margin: 0;
+    transition: all 0.2s ease-in;
+}
+
+.profile-card-actions {
+    padding: 5px;
+    margin: 10px;
+    transition: all 0.2s ease-in;
+}
+
+mat-card {
+    padding: 10px;
+}
+
+mat-form-field {
+    margin: 15px;
+    padding: 0;
+
+    width: $avatar-width;
+}
+
+::ng-deep .tooltip {
+    background: transparent;
+    backdrop-filter: blur(50px);
+    font-size: 14px;
+}
