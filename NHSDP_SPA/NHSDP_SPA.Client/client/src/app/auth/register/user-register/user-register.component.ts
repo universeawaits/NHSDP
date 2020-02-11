@@ -13,7 +13,7 @@ import { SnackbarService } from 'src/app/services/component/snackbar.service';
 })
 export class UserRegisterComponent implements OnInit {
   registerForm: FormGroup;
-  @ViewChild('password', { static: false }) passwordField: ElementRef;
+  @ViewChild('password') passwordField: ElementRef;
 
   constructor(
     private userService: UserService,
