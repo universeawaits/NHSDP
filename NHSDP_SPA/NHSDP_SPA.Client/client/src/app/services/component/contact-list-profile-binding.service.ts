@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { Contact } from 'src/app/model/contact';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactListProfileBindingService {
-  private contact = new Subject<Contact>();
+  private contact = new Subject<any>();
 
   constructor() { }
 
-  getContact(): Observable<Contact> {
+  getContact(): Observable<any> {
     return this.contact.asObservable();
   }
 
-  updateContact(contact: Contact) {
+  updateContact(contact: any) {
     this.contact.next(contact);
   }
 }

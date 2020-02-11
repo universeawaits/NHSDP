@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserProfile } from 'src/app/model/user.profile';
 import { FormGroup, FormControl, Validators, AbstractControl, NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/server/auth.service';
@@ -22,7 +21,7 @@ export class UserProfileComponent implements OnInit {
 
   avatarSrc: string;
   avatarsSrc = environment.appUrl + 'images/avatars/large/';
-  user: UserProfile = new UserProfile();
+  user: any;
 
   editForm: FormGroup;
   private selectedFile: Image; 
