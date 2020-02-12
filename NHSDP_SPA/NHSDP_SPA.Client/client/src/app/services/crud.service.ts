@@ -7,8 +7,13 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class CrudService {
-  private entityClass: string;
-  private searchUrl: string = environment.appUrl + 'api/' + this.entityClass;
+  public set entityClass(value: string) {
+    this._entityClass = value;
+    this.searchUrl = environment.appUrl + this._entityClass
+  }
+
+  private _entityClass: string;
+  private searchUrl: string;
 
   constructor(
     private httpClient: HttpClient

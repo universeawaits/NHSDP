@@ -15,6 +15,8 @@ namespace VironIT_Social_network_server.WEB.Identity
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Enrollment>()
                 .HasOne<Student>(e => e.Student)
                 .WithMany(s => s.Enrollments)
