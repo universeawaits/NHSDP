@@ -10,7 +10,7 @@ namespace VironIT_Social_network_server.WEB.Identity
     {
         public IdentityContext() { }
 
-        public IdentityContext(Microsoft.EntityFrameworkCore.DbContextOptions<IdentityContext> options)
+        public IdentityContext(DbContextOptions<IdentityContext> options)
             : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

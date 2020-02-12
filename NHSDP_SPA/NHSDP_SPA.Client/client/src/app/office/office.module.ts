@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InternshipComponent } from './internship/internship.component';
 import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from "@angular/cdk/table";
+import { OfficeComponent } from './office/office.component';
 
 
 
 @NgModule({
   declarations: [
-    InternshipComponent
+    OfficeComponent
   ],
   imports: [
     CommonModule,
@@ -16,4 +16,4 @@ import { CdkTableModule } from "@angular/cdk/table";
     CdkTableModule
   ]
 })
-export class InternshipModule { }
+export class OfficeModule { }

@@ -7,6 +7,7 @@ import { AuthComponent } from './auth/auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { InternshipComponent } from './internship/internship/internship.component';
 import { CourseComponent } from './course/course/course.component';
+import { OfficeComponent } from './office/office/office.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'internships', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'internships', component: InternshipComponent },
   { path: 'courses', component: CourseComponent },
+  { path: 'offices', component: OfficeComponent },
 ];
 
 @NgModule({

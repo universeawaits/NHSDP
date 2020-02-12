@@ -15,6 +15,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { InternshipModule } from './internship/internship.module';
 import { CourseModule } from './course/course.module';
+import { OfficeModule } from './office/office.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CourseModule } from './course/course.module';
     HttpClientModule,
     MatTableModule,
     InternshipModule,
-    CourseModule
+    CourseModule,
+    OfficeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

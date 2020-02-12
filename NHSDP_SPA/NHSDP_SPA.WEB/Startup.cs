@@ -58,6 +58,9 @@ namespace NHSDP_SPA.WEB
                     options.User.RequireUniqueEmail = true;
                 });
             services.AddCors();
+
+            JwtOptions jwtOptions = Configuration.GetSection("JwtOptions").Get<JwtOptions>();
+
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -69,11 +72,11 @@ namespace NHSDP_SPA.WEB
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = JwtOptions.Issuer,
+                        ValidIssuer = jwtOptions.Issuer,
                         ValidateAudience = true,
-                        ValidAudience = JwtOptions.Audience,
+                        ValidAudience = jwtOptions.Audience,
                         ValidateLifetime = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtOptions.Secret)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
                         ValidateIssuerSigningKey = true
                     };
                 }
