@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using NHSDP_SPA.Auth.Models;
+
 
 namespace NHSDP_SPA.Auth
 {
@@ -28,8 +25,8 @@ namespace NHSDP_SPA.Auth
         {
             services.AddDbContext<IdentityContext>(options => options.UseNpgsql(Configuration.GetConnectionString("NHSDPConnection")));
 
-            services.AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppIdentityDbContext>()
+            services.AddIdentity<Student, IdentityContext>()
+                .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
 
             services.AddIdentityServer().AddDeveloperSigningCredential()
@@ -44,7 +41,7 @@ namespace NHSDP_SPA.Auth
                .AddInMemoryIdentityResources(Config.GetIdentityResources())
                .AddInMemoryApiResources(Config.GetApiResources())
                .AddInMemoryClients(Config.GetClients())
-               .AddAspNetIdentity<AppUser>();
+               .AddAspNetIdentity<Student>();
         }
 
 
