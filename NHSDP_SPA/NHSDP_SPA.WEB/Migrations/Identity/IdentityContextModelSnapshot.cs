@@ -3,8 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NHSDP_SPA.Core;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using VironIT_Social_network_server.WEB.Identity;
 
 namespace NHSDP_SPA.WEB.Migrations.Identity
 {

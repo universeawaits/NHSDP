@@ -2,20 +2,29 @@
 using Microsoft.AspNetCore.Mvc;
 
 using NHSDP_SPA.Core.Model;
+using NHSDP_SPA.Logic;
 using NHSDP_SPA.Logic.Interface;
 using NHSDP_SPA.WEB.ViewModel;
-
+using System.Threading.Tasks;
 
 namespace NHSDP_SPA.WEB.Controllers
 {
-    [Route("my")]
-    [ApiController]
-    public class UsersController : CRUDControllerBase<Enrollment, EnrollmentVM>
+    [Route("[controller]")]
+    [ApiController] 
+    public class UsersController : CRUDControllerBase<User, UserVM>
     {
-        public UsersController(IMapper mapper, ICRUDServiceBase<Enrollment> enrollmentService)
+        public UsersController(IMapper mapper, ICRUDServiceBase<User> userService)
         {
             this.mapper = mapper;
-            this.entityService = enrollmentService;
+            this.entityService = userService;
+        }
+        [Route("my")]
+        [HttpPost]
+        public override async Task<ErrorVM> Create([FromBody] UserVM entity)
+        {
+            Error error = await entityService.CreateAsync(mapper.Map<User>(entity));
+
+            return error == null ? null : mapper.Map<ErrorVM>(error);
         }
     }
 }

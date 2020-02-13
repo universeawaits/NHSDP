@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NHSDP_SPA.Logic.Interface
 {
-    public interface ICRUDServiceBase<TEntity> where TEntity : EntityBase
+    public interface ICRUDServiceBase<TEntity> where TEntity : IEntityBase
     {
         Task<Error> CreateAsync(TEntity entity);
         Task<bool> DeleteAsync(Guid id);

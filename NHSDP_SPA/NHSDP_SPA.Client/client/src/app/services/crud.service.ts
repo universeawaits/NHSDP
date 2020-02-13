@@ -32,7 +32,7 @@ export class CrudService {
     let result = new Observable<any>();
     result = this.httpClient.get(
       this.searchUrl,
-      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token')} }
+      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token') } }
     );
     return result;
   }
@@ -40,26 +40,26 @@ export class CrudService {
   create(entity: any) {
     let result = new Observable<any>();
     result = this.httpClient.post(
-      this.searchUrl,
-      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token')} }
-    );
+      this.searchUrl, entity,
+      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token') }, responseType: 'text' }
+    ); 
     return result;
   }  
 
   update(entity: any) {
     let result = new Observable<any>();
     result = this.httpClient.put(
-      this.searchUrl,
-      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token')} }
+      this.searchUrl, entity,
+      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token') }, responseType: 'text' }
     );
     return result;
   }  
 
-  delete(entity: any) {
+  delete(id: any) {
     let result = new Observable<any>();
     result = this.httpClient.delete(
-      this.searchUrl,
-      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token')} }
+      this.searchUrl + '?id=' + id,
+      { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token') } }
     );
     return result;
   }  

@@ -14,7 +14,7 @@ using NHSDP_SPA.Core.Model;
 using NHSDP_SPA.Logic.Implementation;
 using NHSDP_SPA.Logic.Interface;
 using System.Text;
-using VironIT_Social_network_server.WEB.Identity;
+
 
 namespace NHSDP_SPA.WEB
 {
@@ -43,7 +43,7 @@ namespace NHSDP_SPA.WEB
                         Configuration.GetConnectionString("NHSDPConnection"),
                         builderConfig => builderConfig.MigrationsAssembly("NHSDP_SPA.WEB"));
                 });
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<UserVM, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(

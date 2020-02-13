@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NHSDP_SPA.Core.Model;
 
 
-namespace VironIT_Social_network_server.WEB.Identity
+namespace NHSDP_SPA.Core
 {
     public class IdentityContext : IdentityDbContext<User>
     {

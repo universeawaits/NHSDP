@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/server/user.service';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from 'src/app/services/server/user.service';
 import { SnackbarService } from 'src/app/services/component/snackbar.service';
 import { CrudService } from 'src/app/services/crud.service';
+
 
 @Component({
   selector: 'user-register',
