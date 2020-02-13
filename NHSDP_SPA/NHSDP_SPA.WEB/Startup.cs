@@ -1,4 +1,5 @@
 using AutoMapper;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,12 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+
 using NHSDP_SPA.Core;
-using NHSDP_SPA.Core.Model;
 using NHSDP_SPA.Logic.Implementation;
 using NHSDP_SPA.Logic.Interface;
 using System.Text;
-using VironIT_Social_network_server.WEB.Identity;
 
 namespace NHSDP_SPA.WEB
 {
@@ -36,16 +36,6 @@ namespace NHSDP_SPA.WEB
                         Configuration.GetConnectionString("NHSDPConnection"),
                         builderConfig => builderConfig.MigrationsAssembly("NHSDP_SPA.WEB"));
                 });
-            services.AddDbContext<IdentityContext>(
-                options =>
-                {
-                    options.UseNpgsql(
-                        Configuration.GetConnectionString("NHSDPConnection"),
-                        builderConfig => builderConfig.MigrationsAssembly("NHSDP_SPA.WEB"));
-                });
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityContext>()
-                .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(
                 options =>
                 {
