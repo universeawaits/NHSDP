@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using NHSDP_SPA.Core.Model;
 using NHSDP_SPA.Logic;
 using NHSDP_SPA.Logic.Interface;
@@ -8,12 +9,11 @@ using NHSDP_SPA.WEB.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 
 namespace NHSDP_SPA.WEB.Controllers
 {
-    public abstract class CRUDControllerBase<TEntityCore, TEntityVM> : ApiController where TEntityCore : EntityBase where TEntityVM : EntityBaseVM
+    public abstract class CRUDControllerBase<TEntityCore, TEntityVM> : ControllerBase where TEntityCore : IEntityBase where TEntityVM : EntityBaseVM, IdentityUser
     {
         protected ICRUDServiceBase<TEntityCore> entityService;
         protected IMapper mapper;
@@ -26,13 +26,13 @@ namespace NHSDP_SPA.WEB.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<TEntityVM> Get(Guid? id)
+        public virtual async Task<TEntityVM> Get([FromQuery(Name = "id")] Guid? id)
         {
             return mapper.Map<TEntityVM>(entityService.Get(id.Value));
         }
 
         [HttpPut]
-        public virtual async Task<ErrorVM> Update(TEntityVM entity)
+        public virtual async Task<ErrorVM> Update([FromBody] TEntityVM entity)
         {
             Error error = await entityService.UpdateAsync(mapper.Map<TEntityCore>(entity));
 
@@ -40,7 +40,7 @@ namespace NHSDP_SPA.WEB.Controllers
         }
 
         [HttpPost]
-        public virtual async Task<ErrorVM> Create(TEntityVM entity)
+        public virtual async Task<ErrorVM> Create([FromBody] TEntityVM entity)
         {
             Error error = await entityService.CreateAsync(mapper.Map<TEntityCore>(entity));
 
@@ -48,7 +48,7 @@ namespace NHSDP_SPA.WEB.Controllers
         }
 
         [HttpDelete]
-        public virtual async Task<ErrorVM> Delete(Guid? id)
+        public virtual async Task<ErrorVM> Delete([FromQuery(Name = "id")] Guid? id)
         {
             if (id == null)
             {

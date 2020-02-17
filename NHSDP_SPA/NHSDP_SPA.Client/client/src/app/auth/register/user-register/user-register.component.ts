@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/server/user.service';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from 'src/app/services/server/user.service';
 import { SnackbarService } from 'src/app/services/component/snackbar.service';
+import { CrudService } from 'src/app/services/crud.service';
+
 
 @Component({
   selector: 'user-register',
@@ -16,13 +19,14 @@ export class UserRegisterComponent implements OnInit {
   @ViewChild('password') passwordField: ElementRef;
 
   constructor(
-    private userService: UserService,
+    private userService: CrudService,
     private snackbarService: SnackbarService,
     private router: Router,
     private titleService: Title
     ) { }
 
   ngOnInit() {
+    this.userService.entityClass = 'my';
     this.titleService.setTitle('noedge :: register');
 
     this.registerForm = new FormGroup({
@@ -56,14 +60,14 @@ export class UserRegisterComponent implements OnInit {
   }
 
   submit() {
-    this.userService.register({ 
+    this.userService.create({ 
       Username: this.registerForm.get('name').value,
       Email: this.registerForm.get('email').value,
       Phone: this.registerForm.get('phone').value,
       Password: this.registerForm.get('password').value
     }).subscribe(
       () => {
-        this.snackbarService.open("check you email", true);
+        this.snackbarService.open("registered successfully", true);
         this.router.navigateByUrl('/login');
       },
       response => {

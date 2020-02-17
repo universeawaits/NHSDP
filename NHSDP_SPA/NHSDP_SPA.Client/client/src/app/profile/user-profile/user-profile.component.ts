@@ -85,7 +85,7 @@ export class UserProfileComponent implements OnInit {
     
     var passwordControl = this.editForm.get('password');
 
-    this.userService.updateData({ Name: nameControl.value, Password: passwordControl.value })
+    this.userService.update({ Name: nameControl.value, Password: passwordControl.value })
       .subscribe(
         () => {
           this.snackbarService.open("changes saved", true);
