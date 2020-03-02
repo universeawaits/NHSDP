@@ -1,38 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
-using IdentityServer4.Stores;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using AuthServer.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NHSDP_SPA.Auth.Models;
+using AuthServer.Models;
+using AuthServer.Infrastructure.Constants;
+using System.Threading.Tasks;
+using IdentityServer4.Services;
+using System.Linq;
+using System;
+using IdentityServer4.Stores;
+using IdentityServer4.Models;
+using IdentityServer4.Events;
+using AuthServer.Extensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using NHSDP_SPA.Auth.Data;
 
-namespace NHSDP_SPA.Auth.Controllers
+namespace AuthServer.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
-        private readonly UserManager<Student> userManager;
-        private readonly IIdentityServerInteractionService interaction;
-        private readonly IAuthenticationSchemeProvider schemeProvider;
-        private readonly IClientStore clientStore;
-        private readonly IEventService events;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IIdentityServerInteractionService _interaction;
+        private readonly IAuthenticationSchemeProvider _schemeProvider;
+        private readonly IClientStore _clientStore;
+        private readonly IEventService _events;
 
-        public AccountController(UserManager<Student> userManager, IIdentityServerInteractionService interaction, 
-            IAuthenticationSchemeProvider schemeProvider, IClientStore clientStore, IEventService events)
+        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IIdentityServerInteractionService interaction, IAuthenticationSchemeProvider schemeProvider, IClientStore clientStore, IEventService events)
         {
-            this.userManager = userManager;
-            this.interaction = interaction;
-            this.schemeProvider = schemeProvider;
-            this.clientStore = clientStore;
-            this.events = events;
+            _userManager = userManager;
+            _interaction = interaction;
+            _schemeProvider = schemeProvider;
+            _clientStore = clientStore;
+            _events = events;
+            _signInManager = signInManager;
         }
 
+        /// <summary>
+        /// Entry point into the login workflow
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl)
         {
@@ -53,23 +59,23 @@ namespace NHSDP_SPA.Auth.Controllers
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(StudentLoginVM model)
+        public async Task<IActionResult> Login(LoginInputModel model, string button)
         {
             // check if we are in the context of an authorization request
-            var context = await interaction.GetAuthorizationContextAsync(model.ReturnUrl);
+            var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
             // the user clicked the "cancel" button
-            /*if (button != "login")
-            {*/
+            if (button != "login")
+            {
                 if (context != null)
                 {
                     // if the user cancels, send a result back into IdentityServer as if they 
                     // denied the consent (even if this client does not require consent).
                     // this will send back an access denied OIDC error response to the client.
-                    await interaction.GrantConsentAsync(context, ConsentResponse.Denied);
+                    await _interaction.GrantConsentAsync(context, ConsentResponse.Denied);
 
                     // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                    if (await clientStore.IsPkceClientAsync(context.ClientId))
+                    if (await _clientStore.IsPkceClientAsync(context.ClientId))
                     {
                         // if the client is PKCE then we assume it's native, so this change in how to
                         // return the response is for better UX for the end user.
@@ -83,7 +89,7 @@ namespace NHSDP_SPA.Auth.Controllers
                     // since we don't have a valid context, then we just go back to the home page
                     return Redirect("~/");
                 }
-            //}
+            }
 
             if (ModelState.IsValid)
             {
