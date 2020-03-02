@@ -1,12 +1,21 @@
+using IdentityServer4.Services;
+
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-using NHSDP_SPA.Auth.Models;
+using NHSDP_SPA.Auth.Data;
+
+using Serilog;
+using System.Net;
 
 
 namespace NHSDP_SPA.Auth
@@ -20,55 +29,98 @@ namespace NHSDP_SPA.Auth
 
         public IConfiguration Configuration { get; }
 
-
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IdentityContext>(options => options.UseNpgsql(Configuration.GetConnectionString("NHSDPConnection")));
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("NHSDPConnection")));
 
-            services.AddIdentity<Student, IdentityContext>()
-                .AddEntityFrameworkStores<IdentityContext>()
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddIdentityServer().AddDeveloperSigningCredential()
-               // this adds the operational data from DB (codes, tokens, consents)
-               .AddOperationalStore(options =>
-               {
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                // this adds the operational data from DB (codes, tokens, consents)
+                .AddOperationalStore(options =>
+                {
                     options.ConfigureDbContext = builder => builder.UseNpgsql(Configuration.GetConnectionString("NHSDPConnection"));
                     // this enables automatic token cleanup. this is optional.
                     options.EnableTokenCleanup = true;
                     options.TokenCleanupInterval = 30; // interval in seconds
-               })
-               .AddInMemoryIdentityResources(Config.GetIdentityResources())
-               .AddInMemoryApiResources(Config.GetApiResources())
-               .AddInMemoryClients(Config.GetClients())
-               .AddAspNetIdentity<Student>();
+                })
+                //.AddInMemoryPersistedGrants()
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiResources(Config.GetApiResources())
+                .AddInMemoryClients(Config.GetClients())
+                .AddAspNetIdentity<AppUser>();
+
+            /* We'll play with this down the road... 
+                services.AddAuthentication()
+                .AddGoogle("Google", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.ClientId = "<insert here>";
+                    options.ClientSecret = "<insert here>";
+                });*/
+
+            services.AddTransient<IProfileService, IdentityClaimsProfileService>();
+
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()));
+
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+
+            app.UseExceptionHandler(builder =>
             {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
+                builder.Run(async context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-            app.UseHttpsRedirection();
+                    var error = context.Features.Get<IExceptionHandlerFeature>();
+                    if (error != null)
+                    {
+                        context.Response.AddApplicationError(error.Error.Message);
+                        await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
+                    }
+                });
+            });
+
+            var serilog = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.FromLogContext()
+                .WriteTo.File(@"authserver_log.txt");
+
+            loggerFactory.WithFilter(new FilterLoggerSettings
+                {
+                    { "IdentityServer4", LogLevel.Debug },
+                    { "Microsoft", LogLevel.Warning },
+                    { "System", LogLevel.Warning },
+                }).AddSerilog(serilog.CreateLogger());
+
             app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseCors("AllowAll");
+            app.UseHttpsRedirection();
             app.UseIdentityServer();
 
-            app.UseEndpoints(endpoints =>
+            app.UseMvc(routes =>
             {
-                endpoints.MapRazorPages();
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

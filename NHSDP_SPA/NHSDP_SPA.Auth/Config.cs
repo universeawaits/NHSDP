@@ -23,7 +23,7 @@ namespace NHSDP_SPA.Auth
             {
                 new ApiResource("resourceapi", "Resource API")
                 {
-                    Scopes = { new Scope("api.read") }
+                    Scopes = {new Scope("api.read")}
                 }
             };
         }
