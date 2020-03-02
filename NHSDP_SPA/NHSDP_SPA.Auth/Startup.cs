@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 
 using NHSDP_SPA.Auth.Data;
 using NHSDP_SPA.Auth.Extensions;
+using NHSDP_SPA.Auth.Services;
 using Serilog;
 using System.Net;
 

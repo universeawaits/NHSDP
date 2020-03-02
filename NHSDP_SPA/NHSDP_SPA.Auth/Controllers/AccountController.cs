@@ -1,19 +1,21 @@
-﻿using AuthServer.Infrastructure.Data.Identity;
-using Microsoft.AspNetCore.Mvc;
-using AuthServer.Models;
-using AuthServer.Infrastructure.Constants;
-using System.Threading.Tasks;
-using IdentityServer4.Services;
+﻿using System.Threading.Tasks;
 using System.Linq;
 using System;
+
 using IdentityServer4.Stores;
 using IdentityServer4.Models;
 using IdentityServer4.Events;
-using AuthServer.Extensions;
+using IdentityServer4.Services;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
 using NHSDP_SPA.Auth.Data;
+using NHSDP_SPA.Auth.Models;
+using NHSDP_SPA.Auth.Constants;
+using NHSDP_SPA.Auth.Extensions;
 
 namespace AuthServer.Controllers
 {
