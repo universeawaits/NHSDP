@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace NHSDP_SPA.WEB.Migrations.Identity
+namespace NHSDP_SPA.Auth.Migrations
 {
-    public partial class RememberWhen : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,54 +41,11 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Registered = table.Column<DateTime>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Course",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Technology = table.Column<string>(nullable: true),
-                    HoursCount = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Course", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Internship",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    StartAt = table.Column<DateTime>(nullable: false),
-                    EndAt = table.Column<DateTime>(nullable: false),
-                    MaxStudentsCount = table.Column<int>(nullable: false),
-                    StudentsCount = table.Column<int>(nullable: false),
-                    EnrollmentState = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Internship", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Office",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Adress = table.Column<string>(nullable: true),
-                    CabinetsCount = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Office", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,81 +154,10 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Enrollment",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    StudentId = table.Column<string>(nullable: true),
-                    InternshipId = table.Column<Guid>(nullable: false),
-                    State = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enrollment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Enrollment_Internship_InternshipId",
-                        column: x => x.InternshipId,
-                        principalTable: "Internship",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Enrollment_AspNetUsers_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Program",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    InternshipId = table.Column<Guid>(nullable: false),
-                    CourseId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Program", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Program_Course_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Course",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Program_Internship_InternshipId",
-                        column: x => x.InternshipId,
-                        principalTable: "Internship",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StudyingPlace",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    InternshipId = table.Column<Guid>(nullable: false),
-                    OfficeId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StudyingPlace", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StudyingPlace_Internship_InternshipId",
-                        column: x => x.InternshipId,
-                        principalTable: "Internship",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StudyingPlace_Office_OfficeId",
-                        column: x => x.OfficeId,
-                        principalTable: "Office",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "e8f4f296-d6db-4d19-bc15-9cff9c4440a1", "69f25603-d6ac-443d-a883-2b45cf397ac3", "consumer", "CONSUMER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -309,37 +195,6 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Enrollment_StudentId",
-                table: "Enrollment",
-                column: "StudentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Enrollment_InternshipId_StudentId",
-                table: "Enrollment",
-                columns: new[] { "InternshipId", "StudentId" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Program_CourseId",
-                table: "Program",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Program_InternshipId",
-                table: "Program",
-                column: "InternshipId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudyingPlace_InternshipId",
-                table: "StudyingPlace",
-                column: "InternshipId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudyingPlace_OfficeId",
-                table: "StudyingPlace",
-                column: "OfficeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -360,28 +215,10 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Enrollment");
-
-            migrationBuilder.DropTable(
-                name: "Program");
-
-            migrationBuilder.DropTable(
-                name: "StudyingPlace");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Course");
-
-            migrationBuilder.DropTable(
-                name: "Internship");
-
-            migrationBuilder.DropTable(
-                name: "Office");
         }
     }
 }

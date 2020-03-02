@@ -10,6 +10,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSDP_SPA.Logic", "NHSDP_SPA.Logic\NHSDP_SPA.Logic.csproj", "{0657EDED-8477-4D6D-96C1-CEAD35B5EF28}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHSDP_SPA.Auth", "NHSDP_SPA.Auth\NHSDP_SPA.Auth.csproj", "{E16263EA-6AA9-4493-BEDF-E2D7C89D9DC2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{76A6BD1C-F129-4A60-891C-390830D5D606} = {76A6BD1C-F129-4A60-891C-390830D5D606}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using NHSDP_SPA.Auth.Data;
 using NHSDP_SPA.Auth.Extensions;
 using NHSDP_SPA.Auth.Services;
+
 using Serilog;
 using System.Net;
 
@@ -100,17 +101,17 @@ namespace NHSDP_SPA.Auth
                 });
             });
 
-            var serilog = new LoggerConfiguration()
+            /*var serilog = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .Enrich.FromLogContext()
-                .WriteTo.File(@"authserver_log.txt");
+                .WriteTo.File(@"authserver_log.txt");*/
 
-            loggerFactory.WithFilter(new FilterLoggerSettings
+            /*loggerFactory.WithFilter(new FilterLoggerSettings
                 {
                     { "IdentityServer4", LogLevel.Debug },
                     { "Microsoft", LogLevel.Warning },
                     { "System", LogLevel.Warning },
-                }).AddSerilog(serilog.CreateLogger());
+                }).AddSerilog(serilog.CreateLogger());*/
 
             app.UseStaticFiles();
             app.UseCors("AllowAll");

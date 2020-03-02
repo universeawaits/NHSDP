@@ -34,12 +34,12 @@ namespace NHSDP_SPA.Auth.Data
 
             var config = builder.Build();
 
-            var connstr = config.GetConnectionString("Default");
+            var connstr = config.GetConnectionString("NHSDPConnection");
 
             if (string.IsNullOrWhiteSpace(connstr))
             {
                 throw new InvalidOperationException(
-                    "Could not find a connection string named 'Default'.");
+                    "Could not find a connection string named 'NHSDPConnection'.");
             }
             return Create(connstr);
         }

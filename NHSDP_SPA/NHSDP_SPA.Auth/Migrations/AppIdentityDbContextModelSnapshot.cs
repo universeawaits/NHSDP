@@ -2,23 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NHSDP_SPA.Core;
+using NHSDP_SPA.Auth.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace NHSDP_SPA.WEB.Migrations.Identity
+namespace NHSDP_SPA.Auth.Migrations
 {
-    [DbContext(typeof(IdentityContext))]
-    [Migration("20200212101341_RememberWhen")]
-    partial class RememberWhen
+    [DbContext(typeof(AppIdentityDbContext))]
+    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -45,6 +43,15 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "e8f4f296-d6db-4d19-bc15-9cff9c4440a1",
+                            ConcurrencyStamp = "69f25603-d6ac-443d-a883-2b45cf397ac3",
+                            Name = "consumer",
+                            NormalizedName = "CONSUMER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -151,134 +158,7 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.Course", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("HoursCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Technology")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Course");
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.Enrollment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("InternshipId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("State")
-                        .HasColumnType("text");
-
-                    b.Property<string>("StudentId")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("InternshipId", "StudentId")
-                        .IsUnique();
-
-                    b.ToTable("Enrollment");
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.Internship", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("EndAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("EnrollmentState")
-                        .HasColumnType("text");
-
-                    b.Property<int>("MaxStudentsCount")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("StartAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("StudentsCount")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Internship");
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.Office", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Adress")
-                        .HasColumnType("text");
-
-                    b.Property<int>("CabinetsCount")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Office");
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.Program", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("InternshipId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("InternshipId");
-
-                    b.ToTable("Program");
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.StudyingPlace", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("InternshipId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("OfficeId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InternshipId");
-
-                    b.HasIndex("OfficeId");
-
-                    b.ToTable("StudyingPlace");
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.User", b =>
+            modelBuilder.Entity("NHSDP_SPA.Auth.Data.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -288,10 +168,6 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
@@ -306,6 +182,9 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("character varying(256)")
@@ -323,9 +202,6 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<DateTime>("Registered")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -347,15 +223,6 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.Student", b =>
-                {
-                    b.HasBaseType("NHSDP_SPA.Core.Model.User");
-
-                    b.HasDiscriminator().HasValue("Student");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -369,7 +236,7 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("NHSDP_SPA.Core.Model.User", null)
+                    b.HasOne("NHSDP_SPA.Auth.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -378,7 +245,7 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("NHSDP_SPA.Core.Model.User", null)
+                    b.HasOne("NHSDP_SPA.Auth.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -393,7 +260,7 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NHSDP_SPA.Core.Model.User", null)
+                    b.HasOne("NHSDP_SPA.Auth.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -402,53 +269,9 @@ namespace NHSDP_SPA.WEB.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("NHSDP_SPA.Core.Model.User", null)
+                    b.HasOne("NHSDP_SPA.Auth.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.Enrollment", b =>
-                {
-                    b.HasOne("NHSDP_SPA.Core.Model.Internship", "Internship")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("InternshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NHSDP_SPA.Core.Model.Student", "Student")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.Program", b =>
-                {
-                    b.HasOne("NHSDP_SPA.Core.Model.Course", "Course")
-                        .WithMany("Programs")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NHSDP_SPA.Core.Model.Internship", "Internship")
-                        .WithMany("Programs")
-                        .HasForeignKey("InternshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("NHSDP_SPA.Core.Model.StudyingPlace", b =>
-                {
-                    b.HasOne("NHSDP_SPA.Core.Model.Internship", "Internship")
-                        .WithMany("StudyingPlaces")
-                        .HasForeignKey("InternshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NHSDP_SPA.Core.Model.Office", "Office")
-                        .WithMany("StudyingPlaces")
-                        .HasForeignKey("OfficeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

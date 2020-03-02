@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NHSDP_SPA.WEB.Controllers
 {
-    public abstract class CRUDControllerBase<TEntityCore, TEntityVM> : ControllerBase where TEntityCore : IEntityBase where TEntityVM : EntityBaseVM, IdentityUser
+    public abstract class CRUDControllerBase<TEntityCore, TEntityVM> : ControllerBase where TEntityCore : EntityBase where TEntityVM : EntityBaseVM
     {
         protected ICRUDServiceBase<TEntityCore> entityService;
         protected IMapper mapper;

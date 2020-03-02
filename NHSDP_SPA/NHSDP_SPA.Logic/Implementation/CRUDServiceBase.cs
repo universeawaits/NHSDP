@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NHSDP_SPA.Logic.Implementation
 {
-    public class CRUDServiceBase<TEntity> : ICRUDServiceBase<TEntity> where TEntity : IEntityBase
+    public class CRUDServiceBase<TEntity> : ICRUDServiceBase<TEntity> where TEntity : EntityBase
     {
         private IUnitOfWork<InternshipContext> uow;
 
