@@ -36,41 +36,7 @@ namespace NHSDP_SPA.WEB
                         Configuration.GetConnectionString("NHSDPConnection"),
                         builderConfig => builderConfig.MigrationsAssembly("NHSDP_SPA.WEB"));
                 });
-            services.Configure<IdentityOptions>(
-                options =>
-                {
-                    options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 8;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireLowercase = false;
-
-                    options.User.RequireUniqueEmail = true;
-                });
             services.AddCors();
-
-            JwtOptions jwtOptions = Configuration.GetSection("JwtOptions").Get<JwtOptions>();
-
-            services.AddAuthentication(o =>
-            {
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = jwtOptions.Issuer,
-                        ValidateAudience = true,
-                        ValidAudience = jwtOptions.Audience,
-                        ValidateLifetime = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
-                        ValidateIssuerSigningKey = true
-                    };
-                }
-            );
 
             services.AddScoped<IUnitOfWork<InternshipContext>, UnitOfWork<InternshipContext>>();
             services.AddScoped(typeof(ICRUDServiceBase<>), typeof(CRUDServiceBase<>));
