@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { SnackbarService } from 'src/app/services/component/snackbar.service';
-import { AuthService } from 'src/app/services/server/auth.service';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -34,10 +34,14 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.spinner.show();
-    this.authService.login()
-        .then(
+    this.authService.login(
+      // this.loginForm.get('login').value, 
+      // this.loginForm.get('password').value
+      ).then(
         () =>
         {
+          // localStorage.setItem("jwt:token", response.token),
+          // localStorage.setItem("jwt:email", response.email)
           this.router.navigateByUrl('/profile');
         },
         response => 
