@@ -17,6 +17,7 @@ using NHSDP_SPA.Auth.Models;
 using NHSDP_SPA.Auth.Constants;
 using NHSDP_SPA.Auth.Extensions;
 
+
 namespace AuthServer.Controllers
 {
     public class AccountController : Controller

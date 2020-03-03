@@ -1,13 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/services/server/auth.service';
 import { Router } from '@angular/router';
-import { ImageService, Image } from 'src/app/services/server/image.service';
-import { UserService } from 'src/app/services/server/user.service';
 import { Title } from '@angular/platform-browser';
 import { SnackbarService } from 'src/app/services/component/snackbar.service';
 import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 
 
 @Component({
@@ -24,14 +22,11 @@ export class UserProfileComponent implements OnInit {
   user: any;
 
   editForm: FormGroup;
-  private selectedFile: Image; 
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private authService: AuthService,
-    private imageService: ImageService,
-    private userService: UserService,
     private titleService: Title,
     private snackbarService: SnackbarService
     ) { }
@@ -51,21 +46,16 @@ export class UserProfileComponent implements OnInit {
       ])
     });
 
-    this.authService.getUserData().subscribe(
-      user => {
-        this.user = user;
-        if (!this.user.avatar) {
-          this.user.avatar = 'assets/images/avatars/large/account.jpg'
-        } else {
-          this.user.avatar = environment.appUrl + this.user.avatar;
-        }
-        this.editForm.get('name').setValue(this.user.name);
-      }
-    );
+    // this.authService.getUserData().subscribe(
+    //   user => {
+    //     this.user = user;
+    //     this.editForm.get('name').setValue(this.user.name);
+    //   }
+    // );
   }
 
   logout() {
-    this.authService.logout().subscribe(
+    this.authService.signout().then(
       () => {
         localStorage.removeItem("jwt:token");
         this.router.navigateByUrl('login');
@@ -85,12 +75,12 @@ export class UserProfileComponent implements OnInit {
     
     var passwordControl = this.editForm.get('password');
 
-    this.userService.update({ Name: nameControl.value, Password: passwordControl.value })
-      .subscribe(
-        () => {
-          this.snackbarService.open("changes saved", true);
-        }
-    );
+    // this.userService.update({ Name: nameControl.value, Password: passwordControl.value })
+    //   .subscribe(
+    //     () => {
+    //       this.snackbarService.open("changes saved", true);
+    //     }
+    // );
   }
 
   cancelEdit() {
@@ -108,30 +98,5 @@ export class UserProfileComponent implements OnInit {
     }
     this.mode = (this.mode === 'view') ? 'edit' : 'view';
     this.changeModeIcon = (this.mode === 'view') ? 'edit' : 'done';
-  }
-
-  processFile(imageInput: any) {
-    if (this.mode == 'view') {
-      return;
-    }
-
-    const file: File = imageInput.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-      this.selectedFile = new Image(event.target.result, file);
-
-      this.imageService.updateAvatar(this.selectedFile.file).subscribe(
-        () => { },
-        response => {
-          this.selectedFile.link = '';
-          this.snackbarService.open(response.error, false);
-        },
-        () => {
-          this.snackbarService.open('wait a bit & reload to see new avatar', true);
-        })
-    });
-
-    reader.readAsDataURL(file);
   }
 }

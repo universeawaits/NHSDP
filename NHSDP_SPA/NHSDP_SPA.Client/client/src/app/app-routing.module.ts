@@ -8,6 +8,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { InternshipComponent } from './internship/internship/internship.component';
 import { CourseComponent } from './course/course/course.component';
 import { OfficeComponent } from './office/office/office.component';
+import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'internships', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'internships', component: InternshipComponent },
   { path: 'courses', component: CourseComponent },
   { path: 'offices', component: OfficeComponent },
+  { path: 'auth-callback', component: AuthCallbackComponent  }
 ];
 
 @NgModule({
