@@ -3,10 +3,10 @@ import { Validators, FormControl, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserService } from 'src/app/services/server/user.service';
 import { SnackbarService } from 'src/app/services/component/snackbar.service';
-import { CrudService } from 'src/app/services/crud.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from 'src/app/core/authentication/auth.service';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -19,14 +19,14 @@ export class UserRegisterComponent implements OnInit {
   @ViewChild('password') passwordField: ElementRef;
 
   constructor(
-    private userService: CrudService,
+    private authService: AuthService,
     private snackbarService: SnackbarService,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private spinner: NgxSpinnerService
     ) { }
 
   ngOnInit() {
-    this.userService.entityClass = 'my';
     this.titleService.setTitle('noedge :: register');
 
     this.registerForm = new FormGroup({
@@ -60,12 +60,16 @@ export class UserRegisterComponent implements OnInit {
   }
 
   submit() {
-    this.userService.create({ 
+    this.authService.register({ 
       Username: this.registerForm.get('name').value,
       Email: this.registerForm.get('email').value,
       Phone: this.registerForm.get('phone').value,
       Password: this.registerForm.get('password').value
-    }).subscribe(
+    })
+    .pipe(finalize(() => {
+      this.spinner.hide();
+    }))
+    .subscribe(
       () => {
         this.snackbarService.open("registered successfully", true);
         this.router.navigateByUrl('/login');

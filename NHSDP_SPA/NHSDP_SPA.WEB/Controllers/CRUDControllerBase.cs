@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using NHSDP_SPA.Core.Model;
 using NHSDP_SPA.Logic;
 using NHSDP_SPA.Logic.Interface;
