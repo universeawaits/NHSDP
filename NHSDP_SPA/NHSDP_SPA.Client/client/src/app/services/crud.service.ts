@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { AuthService } from './server/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class CrudService {
   private searchUrl: string;
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private authService: AuthService
     ) { }
 
   get(id: string) {
@@ -62,5 +64,14 @@ export class CrudService {
       { headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('jwt:token') } }
     );
     return result;
-  }  
+  }
+
+  getHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.authService.authorizationHeaderValue
+      })
+    };
+  }
 }

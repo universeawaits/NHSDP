@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-office',
@@ -11,8 +12,10 @@ export class OfficeComponent implements OnInit {
     { location: 'Levkova, 1', cabinetsCount: 12 }
   ];
 
-  constructor() { }
+  constructor(private spinner: NgxSpinnerService) { }
 
-  ngOnInit(): void { }
+  ngOnInit() { 
+    this.spinner.show();
+  }
 
 }

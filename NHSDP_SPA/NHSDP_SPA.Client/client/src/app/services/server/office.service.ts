@@ -13,6 +13,6 @@ export class UserService extends CrudService {
     httpClient: HttpClient, 
     authServie: AuthService) { 
     super(httpClient, authServie);
-    this.entityClass = 'my';
+    this.entityClass = 'office';
   }
 }
