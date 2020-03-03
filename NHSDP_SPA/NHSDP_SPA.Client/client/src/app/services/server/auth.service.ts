@@ -4,14 +4,13 @@ import { catchError } from 'rxjs/operators';
 import { UserManager, UserManagerSettings, User } from 'oidc-client';
 import { BehaviorSubject } from 'rxjs'; 
 
-import { BaseService } from "../../shared/base.service";
-import { ConfigService } from '../../shared/config.service';
+import { BaseService } from "../base.service";
+import { ConfigService } from '../config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends BaseService  {
-
   // Observable navItem source
   private _authNavStatusSource = new BehaviorSubject<boolean>(false);
   // Observable navItem stream
@@ -65,8 +64,8 @@ export function getClientSettings(): UserManagerSettings {
       client_id: 'angular_spa',
       redirect_uri: 'http://localhost:4200/auth-callback',
       post_logout_redirect_uri: 'http://localhost:4200/',
-      response_type:"id_token token",
-      scope:"openid profile email api.read",
+      response_type: "id_token token",
+      scope: "openid profile email api.read",
       filterProtocolClaims: true,
       loadUserInfo: true,
       automaticSilentRenew: true,

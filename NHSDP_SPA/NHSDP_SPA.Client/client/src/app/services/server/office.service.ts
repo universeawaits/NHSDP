@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService extends CrudService {
+export class OfficeService extends CrudService {
   constructor(
     httpClient: HttpClient, 
     authServie: AuthService) { 

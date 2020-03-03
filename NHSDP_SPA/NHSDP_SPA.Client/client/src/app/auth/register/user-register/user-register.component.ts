@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { SnackbarService } from 'src/app/services/component/snackbar.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthService } from 'src/app/core/authentication/auth.service';
+import { AuthService } from 'src/app/services/server/auth.service';
 import { finalize } from 'rxjs/operators';
 
 
