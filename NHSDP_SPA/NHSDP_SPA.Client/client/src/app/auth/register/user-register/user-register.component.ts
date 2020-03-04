@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { SnackbarService } from 'src/app/services/component/snackbar.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthService } from 'src/app/services/server/auth.service';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 import { finalize } from 'rxjs/operators';
 
 
@@ -33,16 +33,10 @@ export class UserRegisterComponent implements OnInit {
       name: new FormControl(null, [
         Validators.required,
         Validators.pattern("^[a-zA-Z]+$"),
-        Validators.minLength(3) ]),
+        Validators.minLength(3)]),
       email: new FormControl(null, [ 
         Validators.required,
         Validators.email ]),
-      phone: new FormControl(null, [
-        Validators.required,
-        Validators.pattern("^[0-9]+$"),
-        Validators.minLength(12),
-        Validators.maxLength(12)
-      ]),
       password: new FormControl(null, [
         Validators.minLength(8),
         Validators.maxLength(8)
@@ -61,9 +55,8 @@ export class UserRegisterComponent implements OnInit {
 
   submit() {
     this.authService.register({ 
-      Username: this.registerForm.get('name').value,
+      UserName: this.registerForm.get('name').value,
       Email: this.registerForm.get('email').value,
-      Phone: this.registerForm.get('phone').value,
       Password: this.registerForm.get('password').value
     })
     .pipe(finalize(() => {

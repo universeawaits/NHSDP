@@ -3,16 +3,16 @@
 
 namespace NHSDP_SPA.Auth.Models
 {
-    public class RegisterResponseViewModel
+    public class RegisterResponseVM
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
 
-        public RegisterResponseViewModel(AppUser user)
+        public RegisterResponseVM(AppUser user)
         {
             Id = user.Id;
-            Name = user.Name;
+            UserName = user.UserName;
             Email = user.Email;
         }
     }

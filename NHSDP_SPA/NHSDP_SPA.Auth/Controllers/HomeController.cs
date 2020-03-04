@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using System.Diagnostics;
 
 namespace NHSDP_SPA.Auth.Controllers
 {
@@ -12,12 +12,10 @@ namespace NHSDP_SPA.Auth.Controllers
     public class HomeController : Controller
     {
         private readonly IWebHostEnvironment _environment;
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IWebHostEnvironment environment, ILogger<HomeController> logger)
+        public HomeController(IWebHostEnvironment environment)
         {
             _environment = environment;
-            _logger = logger;
         }
 
         public IActionResult Index()
@@ -28,7 +26,7 @@ namespace NHSDP_SPA.Auth.Controllers
                 return View();
             }
 
-            _logger.LogInformation("Homepage is disabled in production. Returning 404.");
+            Debug.Write("Homepage is disabled in production. Returning 404.");
             return NotFound();
         }
 

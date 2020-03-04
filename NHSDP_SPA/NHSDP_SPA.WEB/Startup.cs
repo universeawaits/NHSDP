@@ -33,13 +33,14 @@ namespace NHSDP_SPA.WEB
                         Configuration.GetConnectionString("NHSDPConnection"),
                         builderConfig => builderConfig.MigrationsAssembly("NHSDP_SPA.WEB"));
                 });
-            services.AddCors();
 
             services.AddScoped<IUnitOfWork<InternshipContext>, UnitOfWork<InternshipContext>>();
             services.AddScoped(typeof(ICRUDServiceBase<>), typeof(CRUDServiceBase<>));
             services.AddScoped(provider => new MapperConfiguration(
                 cfg => cfg.AddProfile(new WEBMapperProfile())).CreateMapper()
                 );
+
+            services.AddCors();
             services.AddControllers();
         }
 

@@ -11,7 +11,6 @@ import { ConfigService } from '../../shared/config.service';
   providedIn: 'root'
 })
 export class AuthService extends BaseService  {
-
   // Observable navItem source
   private _authNavStatusSource = new BehaviorSubject<boolean>(false);
   // Observable navItem stream
@@ -23,22 +22,22 @@ export class AuthService extends BaseService  {
   constructor(private http: HttpClient, private configService: ConfigService) { 
     super();     
     
-    this.manager.getUser().then(user => { 
-      this.user = user;      
+    this.manager.getUser().then(user => {
+      this.user = user;
       this._authNavStatusSource.next(this.isAuthenticated());
     });
   }
 
-  login() { 
-    return this.manager.signinRedirect();   
+  login() {
+    return this.manager.signinRedirect();
   }
 
   async completeAuthentication() {
       this.user = await this.manager.signinRedirectCallback();
-      this._authNavStatusSource.next(this.isAuthenticated());      
-  }  
+      this._authNavStatusSource.next(this.isAuthenticated());
+  }
 
-  register(userRegistration: any) {    
+  register(userRegistration: any) {
     return this.http.post(this.configService.authApiURI + '/account', userRegistration).pipe(catchError(this.handleError));
   }
 

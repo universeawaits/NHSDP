@@ -10,13 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 using NHSDP_SPA.Auth.Data;
 using NHSDP_SPA.Auth.Extensions;
 using NHSDP_SPA.Auth.Services;
 
-using Serilog;
 using System.Net;
 
 
@@ -34,12 +32,23 @@ namespace NHSDP_SPA.Auth
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("NHSDPConnection")));
+            services.AddDbContext<AppIdentityDbContext>(options => 
+                options.UseNpgsql(Configuration.GetConnectionString("NHSDPConnection"))
+            );
+            services.Configure<IdentityOptions>(
+                options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
 
+                    options.User.RequireUniqueEmail = true;
+                });
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
-
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 // this adds the operational data from DB (codes, tokens, consents)
@@ -67,10 +76,7 @@ namespace NHSDP_SPA.Auth
 
             services.AddTransient<IProfileService, IdentityClaimsProfileService>();
 
-            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader()));
-
+            services.AddCors();
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
@@ -78,12 +84,18 @@ namespace NHSDP_SPA.Auth
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials());
 
             app.UseExceptionHandler(builder =>
             {
@@ -101,20 +113,7 @@ namespace NHSDP_SPA.Auth
                 });
             });
 
-            /*var serilog = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .Enrich.FromLogContext()
-                .WriteTo.File(@"authserver_log.txt");*/
-
-            /*loggerFactory.WithFilter(new FilterLoggerSettings
-                {
-                    { "IdentityServer4", LogLevel.Debug },
-                    { "Microsoft", LogLevel.Warning },
-                    { "System", LogLevel.Warning },
-                }).AddSerilog(serilog.CreateLogger());*/
-
             app.UseStaticFiles();
-            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseIdentityServer();
 

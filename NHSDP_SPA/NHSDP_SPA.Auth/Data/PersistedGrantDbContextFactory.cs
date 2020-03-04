@@ -14,7 +14,7 @@ namespace NHSDP_SPA.Auth.Data
         public PersistedGrantDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<PersistedGrantDbContext>();
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=NHSDP;Username=postgres;Password=opend00r",
+            optionsBuilder.UseNpgsql("Host=localhost;Port=2560;Database=NHSDP;Username=postgres;Password=opend00r",
                 sql => sql.MigrationsAssembly(typeof(PersistedGrantDbContextFactory).GetTypeInfo().Assembly.GetName().Name));
             return new PersistedGrantDbContext(optionsBuilder.Options, new OperationalStoreOptions());
         }

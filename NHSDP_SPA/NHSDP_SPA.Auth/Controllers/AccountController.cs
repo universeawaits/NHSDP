@@ -100,7 +100,7 @@ namespace AuthServer.Controllers
                 var user = await _userManager.FindByNameAsync(model.Username);
                 if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
                 {
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.Name));
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.Email, user.Id, user.UserName));
 
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
@@ -158,27 +158,24 @@ namespace AuthServer.Controllers
 
         [HttpPost]
         [Route("api/[controller]")]
-        public async Task<IActionResult> Register([FromBody]RegisterRequestViewModel model)
+        public async Task<IActionResult> Register([FromBody]RegisterRequestVM model)
         {
-            //var aVal = 0; var blowUp = 1 / aVal;
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new AppUser { UserName = model.Email, Name = model.Name, Email = model.Email };
+            var user = new AppUser { UserName = model.UserName, Email = model.Email };
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("userName", user.UserName));
-            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("name", user.Name));
+            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("username", user.UserName));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("email", user.Email));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.Consumer));
 
-            return Ok(new RegisterResponseViewModel(user));
+            return Ok(new RegisterResponseVM(user));
         }
 
         [HttpGet]

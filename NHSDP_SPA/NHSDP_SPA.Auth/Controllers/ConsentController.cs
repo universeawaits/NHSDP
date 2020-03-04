@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 using NHSDP_SPA.Auth.Extensions;
 using NHSDP_SPA.Auth.Models;
-
+using System.Diagnostics;
 
 namespace NHSDP_SPA.Auth.Controllers
 {
@@ -29,20 +29,17 @@ namespace NHSDP_SPA.Auth.Controllers
         private readonly IClientStore _clientStore;
         private readonly IResourceStore _resourceStore;
         private readonly IEventService _events;
-        private readonly ILogger<ConsentController> _logger;
 
         public ConsentController(
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IResourceStore resourceStore,
-            IEventService events,
-            ILogger<ConsentController> logger)
+            IEventService events)
         {
             _interaction = interaction;
             _clientStore = clientStore;
             _resourceStore = resourceStore;
             _events = events;
-            _logger = logger;
         }
 
         /// <summary>
@@ -177,21 +174,21 @@ namespace NHSDP_SPA.Auth.Controllers
                     var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ScopesRequested);
                     if (resources != null && (resources.IdentityResources.Any() || resources.ApiResources.Any()))
                     {
-                        return CreateConsentViewModel(model, returnUrl, request, client, resources);
+                        return CreateConsentViewModel(model, returnUrl, client, resources);
                     }
                     else
                     {
-                        _logger.LogError("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
+                        Debug.Write("No scopes matching: {0}", request.ScopesRequested.Aggregate((x, y) => x + ", " + y));
                     }
                 }
                 else
                 {
-                    _logger.LogError("Invalid client id: {0}", request.ClientId);
+                    Debug.Write("Invalid client id: {0}", request.ClientId);
                 }
             }
             else
             {
-                _logger.LogError("No consent request matching request: {0}", returnUrl);
+                Debug.Write("No consent request matching request: {0}", returnUrl);
             }
 
             return null;
@@ -199,7 +196,6 @@ namespace NHSDP_SPA.Auth.Controllers
 
         private ConsentViewModel CreateConsentViewModel(
             ConsentInputModel model, string returnUrl,
-            AuthorizationRequest request,
             Client client, Resources resources)
         {
             var vm = new ConsentViewModel
