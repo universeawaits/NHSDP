@@ -13,7 +13,7 @@ namespace NHSDP_SPA.Auth
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Email(),
-                new IdentityResources.Profile(),
+                new IdentityResources.Profile()
             };
         }
 
@@ -23,7 +23,7 @@ namespace NHSDP_SPA.Auth
             {
                 new ApiResource("resourceapi", "Resource API")
                 {
-                    Scopes = {new Scope("api.read")}
+                    Scopes = { new Scope("api.read") }
                 }
             };
         }

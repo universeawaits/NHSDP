@@ -16,7 +16,7 @@ using NHSDP_SPA.Auth.Data;
 using NHSDP_SPA.Auth.Models;
 using NHSDP_SPA.Auth.Constants;
 using NHSDP_SPA.Auth.Extensions;
-
+using System.Security.Claims;
 
 namespace AuthServer.Controllers
 {
@@ -44,7 +44,7 @@ namespace AuthServer.Controllers
 
         }
 
-        public async Task LoginExternal(Externa)
+        public async Task LoginExternal()
         {
 
         }
@@ -183,9 +183,9 @@ namespace AuthServer.Controllers
                 return BadRequest(result.Errors); 
             }
 
-            await userManager.AddClaimAsync(user, new System.Security.Claims.Claim("username", user.UserName));
-            await userManager.AddClaimAsync(user, new System.Security.Claims.Claim("email", user.Email));
-            await userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.Consumer));
+            await userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.UserName));
+            await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Email, user.Email));
+            await userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, model.Role));
 
             return Ok(new RegisterResponseVM(user));
         }
