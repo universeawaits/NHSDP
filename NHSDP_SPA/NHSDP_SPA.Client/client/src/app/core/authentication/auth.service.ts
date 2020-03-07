@@ -28,8 +28,8 @@ export class AuthService extends BaseService  {
     });
   }
 
-  login() {
-    return this.manager.signinRedirect();
+  login(userLogin: any) {
+    return this.manager.signinRedirect(userLogin);
   }
 
   async completeAuthentication() {
@@ -60,7 +60,7 @@ export class AuthService extends BaseService  {
 
 export function getClientSettings(): UserManagerSettings {
   return {
-      authority: 'http://localhost:5000',
+      authority: 'http://localhost:44328',
       client_id: 'angular_spa',
       redirect_uri: 'http://localhost:4200/auth-callback',
       post_logout_redirect_uri: 'http://localhost:4200/',

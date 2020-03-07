@@ -22,21 +22,31 @@ namespace AuthServer.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IIdentityServerInteractionService _interaction;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;
-        private readonly IClientStore _clientStore;
-        private readonly IEventService _events;
+        private readonly SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> userManager;
+        private readonly IIdentityServerInteractionService interaction;
+        private readonly IAuthenticationSchemeProvider schemeProvider;
+        private readonly IClientStore clientStore;
+        private readonly IEventService events;
 
         public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IIdentityServerInteractionService interaction, IAuthenticationSchemeProvider schemeProvider, IClientStore clientStore, IEventService events)
         {
-            _userManager = userManager;
-            _interaction = interaction;
-            _schemeProvider = schemeProvider;
-            _clientStore = clientStore;
-            _events = events;
-            _signInManager = signInManager;
+            this.userManager = userManager;
+            this.interaction = interaction;
+            this.schemeProvider = schemeProvider;
+            this.clientStore = clientStore;
+            this.events = events;
+            this.signInManager = signInManager;
+        }
+
+        public async Task Login(string userName, string password)
+        {
+
+        }
+
+        public async Task LoginExternal(Externa)
+        {
+
         }
 
         /// <summary>
@@ -46,7 +56,7 @@ namespace AuthServer.Controllers
         public async Task<IActionResult> Login(string returnUrl)
         {
             // build a model so we know what to show on the login page
-            var vm = await BuildLoginViewModelAsync(returnUrl);
+            var vm = await BuildLoginVMAsync(returnUrl);
 
             if (vm.IsExternalLoginOnly)
             {
@@ -65,7 +75,7 @@ namespace AuthServer.Controllers
         public async Task<IActionResult> Login(LoginInputModel model, string button)
         {
             // check if we are in the context of an authorization request
-            var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
+            var context = await interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
             // the user clicked the "cancel" button
             if (button != "login")
@@ -75,14 +85,14 @@ namespace AuthServer.Controllers
                     // if the user cancels, send a result back into IdentityServer as if they 
                     // denied the consent (even if this client does not require consent).
                     // this will send back an access denied OIDC error response to the client.
-                    await _interaction.GrantConsentAsync(context, ConsentResponse.Denied);
+                    await interaction.GrantConsentAsync(context, ConsentResponse.Denied);
 
                     // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                    if (await _clientStore.IsPkceClientAsync(context.ClientId))
+                    if (await clientStore.IsPkceClientAsync(context.ClientId))
                     {
                         // if the client is PKCE then we assume it's native, so this change in how to
                         // return the response is for better UX for the end user.
-                        return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
+                        return View("Redirect", new RedirectVM { RedirectUrl = model.ReturnUrl });
                     }
 
                     return Redirect(model.ReturnUrl);
@@ -97,10 +107,10 @@ namespace AuthServer.Controllers
             if (ModelState.IsValid)
             {
                 // validate username/password
-                var user = await _userManager.FindByNameAsync(model.Username);
-                if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+                var user = await userManager.FindByNameAsync(model.Username);
+                if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
                 {
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.Email, user.Id, user.UserName));
+                    await events.RaiseAsync(new UserLoginSuccessEvent(user.Email, user.Id, user.UserName));
 
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
@@ -119,11 +129,11 @@ namespace AuthServer.Controllers
 
                     if (context != null)
                     {
-                        if (await _clientStore.IsPkceClientAsync(context.ClientId))
+                        if (await clientStore.IsPkceClientAsync(context.ClientId))
                         {
                             // if the client is PKCE then we assume it's native, so this change in how to
                             // return the response is for better UX for the end user.
-                            return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
+                            return View("Redirect", new RedirectVM { RedirectUrl = model.ReturnUrl });
                         }
 
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
@@ -146,7 +156,7 @@ namespace AuthServer.Controllers
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
+                await events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -164,16 +174,18 @@ namespace AuthServer.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             var user = new AppUser { UserName = model.UserName, Email = model.Email };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded)
+            { 
+                return BadRequest(result.Errors); 
+            }
 
-            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("username", user.UserName));
-            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("email", user.Email));
-            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.Consumer));
+            await userManager.AddClaimAsync(user, new System.Security.Claims.Claim("username", user.UserName));
+            await userManager.AddClaimAsync(user, new System.Security.Claims.Claim("email", user.Email));
+            await userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", Roles.Consumer));
 
             return Ok(new RegisterResponseVM(user));
         }
@@ -181,23 +193,20 @@ namespace AuthServer.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            await _signInManager.SignOutAsync();
-            var context = await _interaction.GetLogoutContextAsync(logoutId);
+            await signInManager.SignOutAsync();
+            var context = await interaction.GetLogoutContextAsync(logoutId);
             return Redirect(context.PostLogoutRedirectUri);
         }
 
-        /*****************************************/
-        /* helper APIs for the AccountController */
-        /*****************************************/
-        private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
+        private async Task<LoginVM> BuildLoginVMAsync(string returnUrl)
         {
-            var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+            var context = await interaction.GetAuthorizationContextAsync(returnUrl);
             if (context?.IdP != null)
             {
                 var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
 
                 // this is meant to short circuit the UI and only trigger the one external IdP
-                var vm = new LoginViewModel
+                var vm = new LoginVM
                 {
                     EnableLocalLogin = local,
                     ReturnUrl = returnUrl,
@@ -212,7 +221,7 @@ namespace AuthServer.Controllers
                 return vm;
             }
 
-            var schemes = await _schemeProvider.GetAllSchemesAsync();
+            var schemes = await schemeProvider.GetAllSchemesAsync();
 
             var providers = schemes.Where(x => x.DisplayName != null || (x.Name.Equals(AccountOptions.WindowsAuthenticationSchemeName, StringComparison.OrdinalIgnoreCase))
                 )
@@ -225,7 +234,7 @@ namespace AuthServer.Controllers
             var allowLocal = true;
             if (context?.ClientId != null)
             {
-                var client = await _clientStore.FindEnabledClientByIdAsync(context.ClientId);
+                var client = await clientStore.FindEnabledClientByIdAsync(context.ClientId);
                 if (client != null)
                 {
                     allowLocal = client.EnableLocalLogin;
@@ -237,7 +246,7 @@ namespace AuthServer.Controllers
                 }
             }
 
-            return new LoginViewModel
+            return new LoginVM
             {
                 AllowRememberLogin = AccountOptions.AllowRememberLogin,
                 EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
@@ -247,9 +256,9 @@ namespace AuthServer.Controllers
             };
         }
 
-        private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
+        private async Task<LoginVM> BuildLoginViewModelAsync(LoginInputModel model)
         {
-            var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
+            var vm = await BuildLoginVMAsync(model.ReturnUrl);
             vm.Username = model.Username;
             vm.RememberLogin = model.RememberLogin;
             return vm;

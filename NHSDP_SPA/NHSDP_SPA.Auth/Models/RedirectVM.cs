@@ -1,6 +1,6 @@
 ﻿namespace NHSDP_SPA.Auth.Models
 {
-    public class RedirectViewModel
+    public class RedirectVM
     {
         public string RedirectUrl { get; set; }
     }

@@ -74,7 +74,7 @@ namespace NHSDP_SPA.Auth.Controllers
                 {
                     // if the client is PKCE then we assume it's native, so this change in how to
                     // return the response is for better UX for the end user.
-                    return View("Redirect", new RedirectViewModel { RedirectUrl = result.RedirectUri });
+                    return View("Redirect", new RedirectVM { RedirectUrl = result.RedirectUri });
                 }
 
                 return Redirect(result.RedirectUri);
@@ -163,7 +163,7 @@ namespace NHSDP_SPA.Auth.Controllers
             return result;
         }
 
-        private async Task<ConsentViewModel> BuildViewModelAsync(string returnUrl, ConsentInputModel model = null)
+        private async Task<ConsentVM> BuildViewModelAsync(string returnUrl, ConsentInputModel model = null)
         {
             var request = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (request != null)
@@ -194,11 +194,11 @@ namespace NHSDP_SPA.Auth.Controllers
             return null;
         }
 
-        private ConsentViewModel CreateConsentViewModel(
+        private ConsentVM CreateConsentViewModel(
             ConsentInputModel model, string returnUrl,
             Client client, Resources resources)
         {
-            var vm = new ConsentViewModel
+            var vm = new ConsentVM
             {
                 RememberConsent = model?.RememberConsent ?? true,
                 ScopesConsented = model?.ScopesConsented ?? Enumerable.Empty<string>(),
@@ -215,7 +215,7 @@ namespace NHSDP_SPA.Auth.Controllers
             vm.ResourceScopes = resources.ApiResources.SelectMany(x => x.Scopes).Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             if (ConsentOptions.EnableOfflineAccess && resources.OfflineAccess)
             {
-                vm.ResourceScopes = vm.ResourceScopes.Union(new ScopeViewModel[] {
+                vm.ResourceScopes = vm.ResourceScopes.Union(new ScopeVM[] {
                     GetOfflineAccessScope(vm.ScopesConsented.Contains(IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess) || model == null)
                 });
             }
@@ -223,9 +223,9 @@ namespace NHSDP_SPA.Auth.Controllers
             return vm;
         }
 
-        private ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
+        private ScopeVM CreateScopeViewModel(IdentityResource identity, bool check)
         {
-            return new ScopeViewModel
+            return new ScopeVM
             {
                 Name = identity.Name,
                 DisplayName = identity.DisplayName,
@@ -236,9 +236,9 @@ namespace NHSDP_SPA.Auth.Controllers
             };
         }
 
-        public ScopeViewModel CreateScopeViewModel(Scope scope, bool check)
+        public ScopeVM CreateScopeViewModel(Scope scope, bool check)
         {
-            return new ScopeViewModel
+            return new ScopeVM
             {
                 Name = scope.Name,
                 DisplayName = scope.DisplayName,
@@ -249,9 +249,9 @@ namespace NHSDP_SPA.Auth.Controllers
             };
         }
 
-        private ScopeViewModel GetOfflineAccessScope(bool check)
+        private ScopeVM GetOfflineAccessScope(bool check)
         {
-            return new ScopeViewModel
+            return new ScopeVM
             {
                 Name = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
                 DisplayName = ConsentOptions.OfflineAccessDisplayName,

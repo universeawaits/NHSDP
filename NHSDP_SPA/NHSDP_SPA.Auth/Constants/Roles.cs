@@ -2,6 +2,7 @@
 {
     public static class Roles
     {
-        public const string Consumer = "consumer";
+        public const string Student = "Student";
+        public const string Teacher = "Teacher";
     }
 }

@@ -34,20 +34,19 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.spinner.show();
-    this.authService.login(
-      // this.loginForm.get('login').value, 
-      // this.loginForm.get('password').value
-      ).then(
-        () =>
-        {
+    this.authService.login({
+        UserName: this.loginForm.get('login').value, 
+        Password: this.loginForm.get('password').value
+      })
+      .then(
+        () => {
           // localStorage.setItem("jwt:token", response.token),
           // localStorage.setItem("jwt:email", response.email)
           this.router.navigateByUrl('/profile');
         },
-        response => 
-        {
+        response => {
           this.snackbarService.open(response.error, false);
         }
-      )
+      );
   }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NHSDP_SPA.Auth.Models
 {
-    public class LoginViewModel : LoginInputModel
+    public class LoginVM : LoginInputModel
     {
         public bool AllowRememberLogin { get; set; } = true;
         public bool EnableLocalLogin { get; set; } = true;

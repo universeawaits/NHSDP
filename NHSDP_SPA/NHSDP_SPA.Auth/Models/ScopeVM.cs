@@ -1,6 +1,6 @@
 ﻿namespace NHSDP_SPA.Auth.Models
 {
-    public class ScopeViewModel
+    public class ScopeVM
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
