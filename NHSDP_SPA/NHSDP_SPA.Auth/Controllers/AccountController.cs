@@ -39,37 +39,19 @@ namespace AuthServer.Controllers
             this.signInManager = signInManager;
         }
 
-        public async Task Login(string userName, string password)
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]LoginInputModel loginInputModel)
         {
-
-        }
-
-        public async Task LoginExternal()
-        {
-
-        }
-
-        /// <summary>
-        /// Entry point into the login workflow
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> Login(string returnUrl)
-        {
-            // build a model so we know what to show on the login page
-            var vm = await BuildLoginVMAsync(returnUrl);
+            var vm = await BuildLoginVMAsync(loginInputModel.ReturnUrl);
 
             if (vm.IsExternalLoginOnly)
             {
-                // we only have one option for logging in and it's an external provider
-                return RedirectToAction("Challenge", "External", new { provider = vm.ExternalLoginScheme, returnUrl });
+                return RedirectToAction("Challenge", "External", new { provider = vm.ExternalLoginScheme, loginInputModel.ReturnUrl });
             }
 
-            return View(vm);
+            return await Login(loginInputModel, "login");
         }
 
-        /// <summary>
-        /// Handle postback from username/password login
-        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginInputModel model, string button)
@@ -111,21 +93,9 @@ namespace AuthServer.Controllers
                 if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
                 {
                     await events.RaiseAsync(new UserLoginSuccessEvent(user.Email, user.Id, user.UserName));
-
-                    // only set explicit expiration here if user chooses "remember me". 
-                    // otherwise we rely upon expiration configured in cookie middleware.
-                    AuthenticationProperties props = null;
-                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
-                    {
-                        props = new AuthenticationProperties
-                        {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
-                        };
-                    };
-
+                    
                     // issue authentication cookie with subject ID and username
-                    await HttpContext.SignInAsync(user.Id, user.UserName, props);
+                    await HttpContext.SignInAsync(user.Id, user.UserName);
 
                     if (context != null)
                     {
@@ -248,7 +218,6 @@ namespace AuthServer.Controllers
 
             return new LoginVM
             {
-                AllowRememberLogin = AccountOptions.AllowRememberLogin,
                 EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
                 ReturnUrl = returnUrl,
                 Username = context?.LoginHint,
@@ -260,7 +229,6 @@ namespace AuthServer.Controllers
         {
             var vm = await BuildLoginVMAsync(model.ReturnUrl);
             vm.Username = model.Username;
-            vm.RememberLogin = model.RememberLogin;
             return vm;
         }
     }
