@@ -1,9 +1,0 @@
-﻿namespace NHSDP_SPA.Auth.Models
-{
-    public class LoginInputModel
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string ReturnUrl { get; set; }
-    }
-}
