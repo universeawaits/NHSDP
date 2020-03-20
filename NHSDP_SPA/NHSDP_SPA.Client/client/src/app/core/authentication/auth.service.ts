@@ -28,6 +28,10 @@ export class AuthService extends BaseService  {
     });
   }
 
+  googleRedirect() {
+    return this.http.post(this.configService.authApiURI + '/identity/account/externalLogin?returnUrl=%2F', {});
+  }
+
   login(userLogin: any) {
     return this.manager.signinRedirect(userLogin);
   }

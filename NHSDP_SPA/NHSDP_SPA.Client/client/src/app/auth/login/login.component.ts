@@ -13,8 +13,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -25,28 +23,35 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('noedge :: login');
-
-    this.loginForm = new FormGroup({
-      login: new FormControl(null, Validators.required),
-      password: new FormControl(null, Validators.required)
-    });
   }
 
-  submit() {
-    this.spinner.show();
-    this.authService.login({
-        UserName: this.loginForm.get('login').value, 
-        Password: this.loginForm.get('password').value
-      })
-      .then(
-        () => {
-          // localStorage.setItem("jwt:token", response.token),
-          // localStorage.setItem("jwt:email", response.email)
-          this.router.navigateByUrl('/profile');
-        },
-        response => {
-          this.snackbarService.open(response.error, false);
-        }
-      );
+  // submit() {
+  //   this.spinner.show();
+  //   this.authService.login({
+  //       UserName: this.loginForm.get('login').value, 
+  //       Password: this.loginForm.get('password').value
+  //     })
+  //     .then(
+  //       () => {
+  //         // localStorage.setItem("jwt:token", response.token),
+  //         // localStorage.setItem("jwt:email", response.email)
+  //         this.router.navigateByUrl('/profile');
+  //       },
+  //       response => {
+  //         this.snackbarService.open(response.error, false);
+  //       }
+  //     );
+  // }
+
+  googleRedirect() {
+    this.authService.googleRedirect();
+  }
+
+  onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   }
 }
